@@ -284,7 +284,7 @@ def courses():
     return render_template("index.html")
 
 
-@app.route("/by-teacher")
+@app.route("/teachers")
 def by_teacher():
     return render_template("by_teacher.html")
 
