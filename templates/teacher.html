@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{{ teacher }} — Intuition Process Courses</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --peach:  #e8784a;
+    --pink:   #f0a080;
+    --bg:     #fdf4ef;
+    --white:  #ffffff;
+    --border: #f0ddd8;
+    --text:   #3d2c28;
+    --muted:  #9a7d76;
+  }
+
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+
+  body::before {
+    content: ''; position: fixed; z-index: 0; pointer-events: none;
+    width: 600px; height: 600px; border-radius: 50%;
+    background: radial-gradient(circle, #f8c4b4 0%, transparent 65%);
+    top: -200px; right: -150px; opacity: .45; filter: blur(40px);
+  }
+  body::after {
+    content: ''; position: fixed; z-index: 0; pointer-events: none;
+    width: 500px; height: 500px; border-radius: 50%;
+    background: radial-gradient(circle, #fbd4b8 0%, transparent 65%);
+    bottom: -150px; left: -100px; opacity: .4; filter: blur(40px);
+  }
+
+  header { position: relative; z-index: 1; background: linear-gradient(135deg, #f0a080 0%, #e8784a 100%); color: #fff; padding: 28px 32px 24px; box-shadow: 0 2px 12px rgba(232,120,74,.2); }
+  .header-logo { height: 34px; width: auto; filter: brightness(0) invert(1); opacity: .95; margin-bottom: 12px; display: block; }
+  header h1 { font-size: 1.8rem; font-weight: 700; }
+  header p  { font-size: .92rem; opacity: .88; margin-top: 5px; }
+
+  main { position: relative; z-index: 1; max-width: 1100px; margin: 32px auto; padding: 0 24px 48px; }
+
+  .count { font-size: .88rem; color: var(--muted); margin-bottom: 20px; }
+
+  .cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 16px; }
+
+  .card { background: rgba(255,255,255,.88); border: 1px solid var(--border); border-radius: 14px; padding: 18px; display: flex; flex-direction: column; gap: 10px; transition: box-shadow .15s, transform .15s; backdrop-filter: blur(4px); }
+  .card:hover { box-shadow: 0 6px 22px rgba(200,100,60,.12); transform: translateY(-2px); }
+
+  .card-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; }
+  .card-title { font-size: .95rem; font-weight: 700; line-height: 1.35; flex: 1; }
+  .tag { font-size: .67rem; font-weight: 700; text-transform: uppercase; letter-spacing: .4px; border-radius: 5px; padding: 3px 8px; white-space: nowrap; flex-shrink: 0; }
+  .tag-online   { background: #dbeafe; color: #1d4ed8; }
+  .tag-inperson { background: #dcfce7; color: #166534; }
+  .tag-juniors  { background: #fce4f0; color: #9d174d; }
+  .tag-kids     { background: #ede9fe; color: #5b21b6; }
+  .tag-teens    { background: #dcfce7; color: #166534; }
+  .tag-level2   { background: #fef3c7; color: #92400e; }
+
+  .card-meta { display: flex; flex-direction: column; gap: 5px; font-size: .82rem; color: var(--muted); }
+  .card-meta span { display: flex; align-items: flex-start; gap: 6px; }
+  .icon { font-size: .85rem; flex-shrink: 0; }
+
+  .card-footer { margin-top: auto; display: flex; gap: 8px; flex-wrap: wrap; }
+  .btn-sm { font-size: .8rem; padding: 6px 13px; border-radius: 7px; text-decoration: none; font-weight: 600; transition: opacity .15s; }
+  .btn-sm:hover { opacity: .8; }
+  .btn-reg  { background: linear-gradient(135deg, #f0a080, #e8784a); color: #fff; }
+  .btn-info { background: #f5e8e2; color: var(--text); }
+
+  .empty { text-align: center; padding: 80px 20px; color: var(--muted); }
+  .empty .emoji { font-size: 3rem; display: block; margin-bottom: 12px; }
+  .empty h2 { font-size: 1.1rem; color: var(--text); margin-bottom: 8px; }
+
+  @media (max-width: 600px) {
+    header { padding: 20px 16px; }
+    main { margin: 20px auto; padding: 0 14px 40px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <img src="https://instituteofai.ai/wp-content/uploads/2025/11/iai_logo_black_text-scaled.webp" alt="Institute of Absolute Intelligence" class="header-logo" />
+  <h1>{{ teacher }}</h1>
+  <p>Upcoming Intuition Process courses</p>
+</header>
+
+<main>
+  {% if error %}
+    <div class="empty">
+      <span class="emoji">⚠️</span>
+      <h2>Could not load courses</h2>
+      <p>{{ error }}</p>
+    </div>
+  {% elif courses %}
+    <p class="count">{{ courses | length }} upcoming course{{ 's' if courses | length != 1 else '' }}</p>
+    <div class="cards">
+      {% for c in courses %}
+        {% set online = c.is_online_event == 1 or 'online' in (c.address or '') | lower %}
+        {% set type_name = c.course_type_name or '' %}
+        {% if 'Juniors' in type_name %}
+          {% set tag_cls = 'tag-juniors' %}{% set tag_label = 'Juniors 5–7' %}
+        {% elif 'Kids' in type_name %}
+          {% set tag_cls = 'tag-kids' %}{% set tag_label = 'Kids 8–12' %}
+        {% elif 'Teens' in type_name %}
+          {% set tag_cls = 'tag-teens' %}{% set tag_label = 'Teens 13–17' %}
+        {% elif 'Level 2' in type_name %}
+          {% set tag_cls = 'tag-level2' %}{% set tag_label = 'Level 2' %}
+        {% else %}
+          {% set tag_cls = 'tag-inperson' %}{% set tag_label = type_name %}
+        {% endif %}
+        {% set loc = ([c.city, c.state] | select | join(', ')) or c.address or '—' %}
+        {% set all_teachers = (c.teachers or []) | join(', ') %}
+        <div class="card{% if online %} online{% endif %}">
+          <div class="card-top">
+            <div class="card-title">{{ c.title }}</div>
+            <span class="tag {{ tag_cls }}">{{ tag_label }}</span>
+          </div>
+          <div class="card-meta">
+            <span><span class="icon">📅</span>{{ c.display_date }}{% if c.weekday_timings %} · {{ c.weekday_timings }}{% elif c.weekend_timings %} · {{ c.weekend_timings }}{% endif %}</span>
+            <span><span class="icon">📍</span>{{ loc }}</span>
+            {% if all_teachers %}
+            <span><span class="icon">👤</span>{{ all_teachers }}</span>
+            {% endif %}
+            <span><span class="icon">💰</span>{% if c.course_fee and c.course_fee > 0 %}${{ c.course_fee }}{% else %}Free{% endif %}</span>
+          </div>
+          <div class="card-footer">
+            {% if c.register_url %}<a class="btn-sm btn-reg" href="{{ c.register_url }}" target="_blank">Register</a>{% endif %}
+            {% if c.link %}<a class="btn-sm btn-info" href="https://{{ c.link }}" target="_blank">Details</a>{% endif %}
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <div class="empty">
+      <span class="emoji">📭</span>
+      <h2>No upcoming courses for {{ teacher }}</h2>
+      <p>Check back soon — new courses are added regularly.</p>
+    </div>
+  {% endif %}
+</main>
+
+</body>
+</html>
