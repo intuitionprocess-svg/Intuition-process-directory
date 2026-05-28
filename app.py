@@ -40,7 +40,7 @@ def teacher_page(slug):
 
 @app.route("/")
 def index():
-    abort(404)
+    return render_template("landing.html")
 
 
 if __name__ == "__main__":
