@@ -7,15 +7,20 @@
 <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: 'Work Sans', -apple-system, BlinkMacSystemFont, sans-serif; color: #1a1a1a; background: #fff; }
+  body {
+    font-family: 'Work Sans', -apple-system, BlinkMacSystemFont, sans-serif; color: #1a1a1a;
+    background: url(//d9hhrg4mnvzow.cloudfront.net/event.us.artofliving.org/us-en/lp1/intuition-process-journey/3fcbd58d-secrets-of-meditation_1000000000000000000028.png) center top / cover fixed;
+  }
+  body::before {
+    content: ''; position: fixed; inset: 0; z-index: 0; pointer-events: none;
+    background: rgba(255,255,255,.72);
+  }
 
   /* ── HERO ── */
   .hero {
     display: flex; flex-direction: column; align-items: center; justify-content: center;
-    text-align: center; padding: 80px 24px; position: relative; overflow: hidden;
-    background: #fff url(//d9hhrg4mnvzow.cloudfront.net/event.us.artofliving.org/us-en/lp1/intuition-process-journey/3fcbd58d-secrets-of-meditation_1000000000000000000028.png) center top / cover no-repeat;
+    text-align: center; padding: 80px 24px; position: relative;
   }
-  .hero::before { content: ''; position: absolute; inset: 0; background: rgba(255,255,255,.58); }
   .hero-content { position: relative; z-index: 1; max-width: 620px; width: 100%; }
   .hero-logo { height: 44px; width: auto; margin-bottom: 22px; }
   .hero h1 { font-size: 3rem; font-weight: 800; color: #1e1410; line-height: 1.15; letter-spacing: -.5px; margin-bottom: 20px; }
@@ -30,27 +35,26 @@
   .btn-cta-secondary:hover { background: rgba(232,120,74,.08); transform: translateY(-1px); }
 
   /* ── SHARED ── */
-  section { padding: 80px 24px; }
+  section { padding: 80px 24px; position: relative; z-index: 1; }
   .inner { max-width: 1080px; margin: 0 auto; }
   .section-title { font-size: 2rem; font-weight: 700; text-align: center; margin-bottom: 48px; color: #1a1a1a; }
 
   /* ── WIN-WIN ── */
-  .winwin { background: #fff; }
+  .winwin { background: transparent; }
   .ww-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
-  .ww-card { border: 1px solid #e4e4e4; border-radius: 12px; padding: 28px 22px; display: flex; flex-direction: column; gap: 10px; background: #fafafa; }
+  .ww-card { border: 1px solid rgba(228,228,228,.7); border-radius: 12px; padding: 28px 22px; display: flex; flex-direction: column; gap: 10px; background: rgba(255,255,255,.82); backdrop-filter: blur(6px); }
   .ww-icon { width: 44px; height: 44px; margin-top: auto; padding-top: 12px; }
   .ww-card h3 { font-size: 1rem; font-weight: 700; color: #1a1a1a; }
   .ww-card p { font-size: .88rem; color: #555; line-height: 1.65; }
 
-
   /* ── PROGRAM OUTLINE ── */
-  .outline { background: #fff; }
+  .outline { background: transparent; }
   .tracks { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; align-items: start; }
-  .track { border: 1px solid #e4e4e4; border-radius: 14px; padding: 28px 22px; background: #fafafa; }
+  .track { border: 1px solid rgba(228,228,228,.7); border-radius: 14px; padding: 28px 22px; background: rgba(255,255,255,.82); backdrop-filter: blur(6px); }
   .track-name { font-size: 1.15rem; font-weight: 700; margin-bottom: 4px; }
   .track-ages { font-size: .85rem; font-weight: 700; color: #e8784a; margin-bottom: 14px; }
   .track-stats { font-size: .84rem; color: #555; line-height: 1.85; border-bottom: 1px solid #e0e0e0; padding-bottom: 16px; margin-bottom: 18px; }
-  details { border: 1px solid #e0e0e0; border-radius: 8px; margin-bottom: 10px; background: #fff; overflow: hidden; }
+  details { border: 1px solid #e0e0e0; border-radius: 8px; margin-bottom: 10px; background: rgba(255,255,255,.9); overflow: hidden; }
   summary { font-size: .88rem; font-weight: 600; padding: 12px 14px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; list-style: none; color: #1a1a1a; user-select: none; }
   summary::-webkit-details-marker { display: none; }
   .sum-icon { font-size: 1rem; color: #888; font-weight: 400; transition: transform .2s; }
