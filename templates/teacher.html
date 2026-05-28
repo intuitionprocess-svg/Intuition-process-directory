@@ -4,51 +4,50 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>{{ teacher }} — Intuition Process Courses</title>
+<link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-  :root {
-    --peach:  #e8784a;
-    --pink:   #f0a080;
-    --bg:     #fdf4ef;
-    --white:  #ffffff;
-    --border: #f0ddd8;
-    --text:   #3d2c28;
-    --muted:  #9a7d76;
+  body {
+    font-family: 'Work Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    color: #1a1a1a; min-height: 100vh;
+    background: url(//d9hhrg4mnvzow.cloudfront.net/event.us.artofliving.org/us-en/lp1/intuition-process-journey/3fcbd58d-secrets-of-meditation_1000000000000000000028.png) center top / cover fixed;
   }
-
-  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
-
   body::before {
-    content: ''; position: fixed; z-index: 0; pointer-events: none;
-    width: 600px; height: 600px; border-radius: 50%;
-    background: radial-gradient(circle, #f8c4b4 0%, transparent 65%);
-    top: -200px; right: -150px; opacity: .45; filter: blur(40px);
-  }
-  body::after {
-    content: ''; position: fixed; z-index: 0; pointer-events: none;
-    width: 500px; height: 500px; border-radius: 50%;
-    background: radial-gradient(circle, #fbd4b8 0%, transparent 65%);
-    bottom: -150px; left: -100px; opacity: .4; filter: blur(40px);
+    content: ''; position: fixed; inset: 0; z-index: 0; pointer-events: none;
+    background: rgba(255,255,255,.72);
   }
 
-  header { position: relative; z-index: 1; background: linear-gradient(135deg, #f0a080 0%, #e8784a 100%); color: #fff; padding: 28px 32px 24px; box-shadow: 0 2px 12px rgba(232,120,74,.2); }
-  .header-logo { height: 34px; width: auto; filter: brightness(0) invert(1); opacity: .95; margin-bottom: 12px; display: block; }
-  header h1 { font-size: 1.8rem; font-weight: 700; }
-  header p  { font-size: .92rem; opacity: .88; margin-top: 5px; }
+  /* ── PAGE HEADER ── */
+  .page-header {
+    position: relative; z-index: 1;
+    padding: 36px 32px 28px;
+    border-bottom: 1px solid rgba(232,120,74,.15);
+  }
+  .page-header h1 {
+    font-size: 2rem; font-weight: 800; color: #1e1410; letter-spacing: -.4px; margin-bottom: 4px;
+  }
+  .page-header p { font-size: .92rem; color: #7a5c54; }
 
-  main { position: relative; z-index: 1; max-width: 1100px; margin: 32px auto; padding: 0 24px 48px; }
+  /* ── MAIN ── */
+  main { position: relative; z-index: 1; max-width: 1100px; margin: 0 auto; padding: 32px 24px 60px; }
 
-  .count { font-size: .88rem; color: var(--muted); margin-bottom: 20px; }
+  .count { font-size: .88rem; color: #9a7d76; margin-bottom: 22px; }
 
+  /* ── CARDS ── */
   .cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 16px; }
 
-  .card { background: rgba(255,255,255,.88); border: 1px solid var(--border); border-radius: 14px; padding: 18px; display: flex; flex-direction: column; gap: 10px; transition: box-shadow .15s, transform .15s; backdrop-filter: blur(4px); }
-  .card:hover { box-shadow: 0 6px 22px rgba(200,100,60,.12); transform: translateY(-2px); }
+  .card {
+    background: rgba(255,255,255,.85); border: 1px solid rgba(240,221,216,.8);
+    border-radius: 14px; padding: 20px; display: flex; flex-direction: column; gap: 10px;
+    transition: box-shadow .15s, transform .15s; backdrop-filter: blur(6px);
+  }
+  .card:hover { box-shadow: 0 6px 24px rgba(200,100,60,.1); transform: translateY(-2px); }
 
   .card-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; }
-  .card-title { font-size: .95rem; font-weight: 700; line-height: 1.35; flex: 1; }
-  .tag { font-size: .67rem; font-weight: 700; text-transform: uppercase; letter-spacing: .4px; border-radius: 5px; padding: 3px 8px; white-space: nowrap; flex-shrink: 0; }
+  .card-title { font-size: .95rem; font-weight: 700; line-height: 1.35; flex: 1; color: #1e1410; }
+
+  .tag { font-size: .66rem; font-weight: 700; text-transform: uppercase; letter-spacing: .4px; border-radius: 5px; padding: 3px 8px; white-space: nowrap; flex-shrink: 0; }
   .tag-online   { background: #dbeafe; color: #1d4ed8; }
   .tag-inperson { background: #dcfce7; color: #166534; }
   .tag-juniors  { background: #fce4f0; color: #9d174d; }
@@ -56,7 +55,7 @@
   .tag-teens    { background: #dcfce7; color: #166534; }
   .tag-level2   { background: #fef3c7; color: #92400e; }
 
-  .card-meta { display: flex; flex-direction: column; gap: 5px; font-size: .82rem; color: var(--muted); }
+  .card-meta { display: flex; flex-direction: column; gap: 5px; font-size: .82rem; color: #9a7d76; }
   .card-meta span { display: flex; align-items: flex-start; gap: 6px; }
   .icon { font-size: .85rem; flex-shrink: 0; }
 
@@ -64,25 +63,26 @@
   .btn-sm { font-size: .8rem; padding: 6px 13px; border-radius: 7px; text-decoration: none; font-weight: 600; transition: opacity .15s; }
   .btn-sm:hover { opacity: .8; }
   .btn-reg  { background: linear-gradient(135deg, #f0a080, #e8784a); color: #fff; }
-  .btn-info { background: #f5e8e2; color: var(--text); }
+  .btn-info { background: rgba(245,232,226,.9); color: #3d2c28; }
 
-  .empty { text-align: center; padding: 80px 20px; color: var(--muted); }
+  /* ── EMPTY ── */
+  .empty { text-align: center; padding: 80px 20px; color: #9a7d76; }
   .empty .emoji { font-size: 3rem; display: block; margin-bottom: 12px; }
-  .empty h2 { font-size: 1.1rem; color: var(--text); margin-bottom: 8px; }
+  .empty h2 { font-size: 1.1rem; color: #3d2c28; margin-bottom: 8px; }
 
   @media (max-width: 600px) {
-    header { padding: 20px 16px; }
-    main { margin: 20px auto; padding: 0 14px 40px; }
+    .page-header { padding: 24px 16px 20px; }
+    main { padding: 20px 14px 48px; }
+    .page-header h1 { font-size: 1.6rem; }
   }
 </style>
 </head>
 <body>
 
-<header>
-  <img src="https://instituteofai.ai/wp-content/uploads/2025/11/iai_logo_black_text-scaled.webp" alt="Institute of Absolute Intelligence" class="header-logo" />
+<div class="page-header">
   <h1>{{ teacher }}</h1>
   <p>Upcoming Intuition Process courses</p>
-</header>
+</div>
 
 <main>
   {% if error %}
