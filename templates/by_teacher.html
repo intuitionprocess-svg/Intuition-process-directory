@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Intuition Process — Courses by Teacher</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --peach:  #e8784a;
+    --pink:   #f0a080;
+    --bg:     #fdf4ef;
+    --white:  #ffffff;
+    --border: #f0ddd8;
+    --text:   #3d2c28;
+    --muted:  #9a7d76;
+  }
+
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; position: relative; }
+
+  body::before {
+    content: ''; position: fixed; z-index: 0; pointer-events: none;
+    width: 600px; height: 600px; border-radius: 50%;
+    background: radial-gradient(circle, #f8c4b4 0%, transparent 65%);
+    top: -200px; right: -150px; opacity: .45; filter: blur(40px);
+  }
+  body::after {
+    content: ''; position: fixed; z-index: 0; pointer-events: none;
+    width: 500px; height: 500px; border-radius: 50%;
+    background: radial-gradient(circle, #fbd4b8 0%, transparent 65%);
+    bottom: -150px; left: -100px; opacity: .4; filter: blur(40px);
+  }
+  header, .controls, .statusbar, .layout { position: relative; z-index: 1; }
+
+  /* Header */
+  header { background: linear-gradient(135deg, #f0a080 0%, #e8784a 100%); color: #fff; padding: 18px 32px; box-shadow: 0 2px 12px rgba(232,120,74,.2); }
+  .header-top { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; }
+  header h1 { font-size: 1.55rem; font-weight: 700; }
+  header p  { font-size: .88rem; opacity: .88; margin-top: 3px; }
+  .header-logo { height: 36px; width: auto; filter: brightness(0) invert(1); opacity: .95; }
+  .nav-link { font-size: .82rem; color: rgba(255,255,255,.88); text-decoration: none; background: rgba(255,255,255,.18); border-radius: 6px; padding: 5px 12px; transition: background .15s; white-space: nowrap; }
+  .nav-link:hover { background: rgba(255,255,255,.28); }
+
+  /* Controls */
+  .controls { background: rgba(255,255,255,.85); backdrop-filter: blur(8px); border-bottom: 1px solid var(--border); padding: 14px 32px; display: flex; flex-wrap: wrap; gap: 12px; align-items: flex-end; }
+  .cg { display: flex; flex-direction: column; gap: 4px; }
+  .cg label { font-size: .72rem; font-weight: 700; text-transform: uppercase; letter-spacing: .5px; color: var(--muted); }
+  .cg input, .cg select { border: 1.5px solid var(--border); border-radius: 8px; padding: 8px 11px; font-size: .88rem; color: var(--text); background: rgba(255,255,255,.9); outline: none; min-width: 200px; transition: border-color .15s; }
+  .cg input:focus, .cg select:focus { border-color: var(--peach); }
+  .btn { padding: 9px 16px; border: none; border-radius: 8px; font-size: .88rem; font-weight: 600; cursor: pointer; transition: opacity .15s; align-self: flex-end; }
+  .btn:hover { opacity: .85; }
+  .btn-secondary { background: #f5e8e2; color: var(--text); }
+
+  /* Status bar */
+  .statusbar { display: flex; align-items: center; gap: 8px; padding: 10px 32px; font-size: .83rem; color: var(--muted); background: rgba(255,255,255,.7); border-bottom: 1px solid var(--border); }
+  .spinner { width: 14px; height: 14px; border: 2px solid var(--border); border-top-color: var(--peach); border-radius: 50%; animation: spin .7s linear infinite; display: none; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* Layout */
+  .layout { display: flex; min-height: calc(100vh - 160px); }
+
+  /* Sidebar */
+  .sidebar { width: 220px; flex-shrink: 0; border-right: 1px solid var(--border); background: rgba(255,255,255,.75); padding: 10px 0; position: sticky; top: 0; max-height: calc(100vh - 120px); overflow-y: auto; }
+  .sidebar h3 { font-size: .7rem; font-weight: 700; text-transform: uppercase; letter-spacing: .6px; color: var(--muted); padding: 0 14px 7px; }
+  .teacher-item { display: flex; justify-content: space-between; align-items: center; padding: 6px 14px; cursor: pointer; font-size: .86rem; border-left: 3px solid transparent; transition: background .1s; }
+  .teacher-item:hover { background: #fdf0eb; }
+  .teacher-item.active { background: #fdf0eb; border-left-color: var(--peach); font-weight: 600; color: var(--peach); }
+  .badge { font-size: .7rem; background: #f5e8e2; color: var(--muted); border-radius: 10px; padding: 1px 7px; font-weight: 700; flex-shrink: 0; }
+  .teacher-item.active .badge { background: var(--peach); color: #fff; }
+  .teacher-name-text { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; margin-right: 6px; }
+
+  /* Course area */
+  .course-area { flex: 1; padding: 20px 26px; overflow-y: auto; }
+  .teacher-section { margin-bottom: 36px; }
+  .teacher-heading { display: flex; align-items: center; gap: 10px; margin-bottom: 13px; padding-bottom: 8px; border-bottom: 2px solid var(--border); }
+  .teacher-heading h2 { font-size: 1rem; font-weight: 700; color: var(--text); }
+  .teacher-count { font-size: .78rem; color: var(--muted); background: #f5e8e2; border-radius: 10px; padding: 2px 9px; }
+
+  /* Cards */
+  .cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(295px, 1fr)); gap: 13px; }
+  .card { background: rgba(255,255,255,.85); border: 1px solid var(--border); border-radius: 12px; padding: 15px; display: flex; flex-direction: column; gap: 9px; transition: box-shadow .15s, transform .15s; backdrop-filter: blur(4px); }
+  .card:hover { box-shadow: 0 6px 20px rgba(200,100,60,.1); transform: translateY(-1px); }
+  .card.online { background: rgba(255,248,244,.9); border-color: #f8d4c4; }
+
+  .card-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; }
+  .card-title { font-size: .9rem; font-weight: 700; line-height: 1.35; flex: 1; color: var(--text); }
+  .tag { font-size: .66rem; font-weight: 700; text-transform: uppercase; letter-spacing: .4px; border-radius: 5px; padding: 2px 7px; white-space: nowrap; flex-shrink: 0; }
+  .tag-online   { background: #dbeafe; color: #1d4ed8; }
+  .tag-inperson { background: #dcfce7; color: #166534; }
+  .tag-juniors  { background: #fce4f0; color: #9d174d; }
+  .tag-kids     { background: #ede9fe; color: #5b21b6; }
+  .tag-teens    { background: #dcfce7; color: #166534; }
+  .tag-level2   { background: #fef3c7; color: #92400e; }
+
+  .card-meta { display: flex; flex-direction: column; gap: 4px; font-size: .8rem; color: var(--muted); }
+  .card-meta span { display: flex; align-items: flex-start; gap: 5px; }
+  .icon { font-size: .85rem; flex-shrink: 0; }
+
+  .card-footer { margin-top: auto; display: flex; gap: 7px; flex-wrap: wrap; }
+  .btn-sm { font-size: .78rem; padding: 5px 11px; border-radius: 6px; text-decoration: none; font-weight: 600; transition: opacity .15s; }
+  .btn-sm:hover { opacity: .8; }
+  .btn-reg  { background: linear-gradient(135deg, #f0a080, #e8784a); color: #fff; }
+  .btn-info { background: #f5e8e2; color: var(--text); }
+
+  /* Empty */
+  .empty { text-align: center; padding: 60px 20px; color: var(--muted); }
+  .empty .emoji { font-size: 2.8rem; display: block; margin-bottom: 10px; }
+  .empty h3 { font-size: 1.05rem; color: var(--text); margin-bottom: 6px; }
+
+  /* Responsive */
+  @media (max-width: 680px) {
+    .controls, .statusbar { padding-left: 14px; padding-right: 14px; }
+    .layout { flex-direction: column; }
+    .sidebar { width: 100%; max-height: 200px; position: static; border-right: none; border-bottom: 1px solid var(--border); }
+    .course-area { padding: 14px; }
+    header { padding: 16px 14px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-top">
+    <div>
+      <img src="https://instituteofai.ai/wp-content/uploads/2025/11/iai_logo_black_text-scaled.webp" alt="Institute of Absolute Intelligence" class="header-logo" />
+      <h1>Courses by Teacher</h1>
+      <p>Browse upcoming Intuition Process courses grouped by facilitator</p>
+    </div>
+    <a href="/courses" class="nav-link">&#8592; All Courses</a>
+  </div>
+</header>
+
+<div class="controls">
+  <div class="cg">
+    <label>Search Teacher</label>
+    <input type="text" id="teacher-search" placeholder="Type a teacher name…" />
+  </div>
+  <div class="cg">
+    <label>Course Type</label>
+    <select id="type-select">
+      <option value="">All IP Courses</option>
+      <option value="Intuition Process Juniors (ages 5–7)">Juniors (ages 5–7)</option>
+      <option value="Intuition Process Kids (ages 8–12)">Kids (ages 8–12)</option>
+      <option value="Intuition Process Teens (ages 13–17)">Teens (ages 13–17)</option>
+      <option value="Intuition Process Level 2">Level 2</option>
+    </select>
+  </div>
+  <button class="btn btn-secondary" id="clear-btn">Clear</button>
+</div>
+
+<div class="statusbar">
+  <div class="spinner" id="spinner"></div>
+  <span id="status-text">Loading courses…</span>
+</div>
+
+<div class="layout">
+  <nav class="sidebar" id="sidebar">
+    <h3>Teachers</h3>
+    <div id="teacher-list"></div>
+  </nav>
+  <main class="course-area" id="course-area">
+    <div class="empty"><span class="emoji">🔄</span><h3>Fetching courses…</h3></div>
+  </main>
+</div>
+
+<script>
+const TYPE_TAG = {
+  'Intuition Process Juniors (ages 5–7)':  ['Juniors 5–7',  'tag-juniors'],
+  'Intuition Process Kids (ages 8–12)':    ['Kids 8–12',    'tag-kids'],
+  'Intuition Process Teens (ages 13–17)':  ['Teens 13–17',  'tag-teens'],
+  'Intuition Process Level 2':             ['Level 2',      'tag-level2'],
+};
+
+let all = [], activeTeacher = '';
+
+const spinner      = document.getElementById('spinner');
+const statusText   = document.getElementById('status-text');
+const courseArea   = document.getElementById('course-area');
+const teacherList  = document.getElementById('teacher-list');
+const teacherSearch = document.getElementById('teacher-search');
+const typeSelect   = document.getElementById('type-select');
+const clearBtn     = document.getElementById('clear-btn');
+
+// ── Load ───────────────────────────────────────────────────────────────────
+async function loadCourses() {
+  spinner.style.display = 'block';
+  statusText.textContent = 'Fetching courses…';
+  try {
+    const res  = await fetch('/api/courses');
+    const json = await res.json();
+    if (json.error) throw new Error(json.error);
+    all = json.courses;
+    buildSidebar();
+    render();
+    statusText.textContent = `${all.length} courses across ${teacherGroups(all).length} teachers`;
+  } catch(e) {
+    statusText.textContent = 'Error: ' + e.message;
+    courseArea.innerHTML = `<div class="empty"><span class="emoji">⚠️</span><h3>Could not load courses</h3><p>${e.message}</p></div>`;
+  } finally {
+    spinner.style.display = 'none';
+  }
+}
+
+// ── Teacher name helper ────────────────────────────────────────────────────
+function courseTeachers(c) {
+  const list = (c.teachers || []).map(t => t.trim()).filter(Boolean);
+  return list.length ? list : ['Unknown'];
+}
+
+// ── Group & filter — a course with multiple teachers appears under each ────
+function teacherGroups(courses) {
+  const map = {};
+  courses.forEach(c => {
+    courseTeachers(c).forEach(t => {
+      (map[t] = map[t] || []).push(c);
+    });
+  });
+  return Object.entries(map).sort(([a], [b]) => {
+    if (a === 'Unknown') return 1;
+    if (b === 'Unknown') return -1;
+    return a.localeCompare(b);
+  });
+}
+
+function filteredCourses() {
+  const tf = typeSelect.value.trim().toLowerCase();
+  const sf = teacherSearch.value.trim().toLowerCase();
+  return all.filter(c => {
+    if (tf && (c.course_type_name || '').toLowerCase() !== tf) return false;
+    const teachers = courseTeachers(c);
+    if (activeTeacher && !teachers.includes(activeTeacher)) return false;
+    if (sf && !teachers.some(t => t.toLowerCase().includes(sf))) return false;
+    return true;
+  });
+}
+
+// ── Card HTML ──────────────────────────────────────────────────────────────
+function cardHTML(c) {
+  const online = c.is_online_event === 1 || /online/i.test(c.address || '');
+  const [typeLabel, typeCls] = TYPE_TAG[c.course_type_name] || [c.course_type_name || '', 'tag-inperson'];
+  const typeTag = typeLabel ? `<span class="tag ${typeCls}">${typeLabel}</span>` : '';
+  const venueTag = online ? '<span class="tag tag-online">Online</span>' : '<span class="tag tag-inperson">In-Person</span>';
+  const tag = typeTag || venueTag;
+  const loc = [c.city, c.state].filter(Boolean).join(', ') || c.address || '—';
+  const timing = c.weekday_timings || c.weekend_timings || '';
+  const recur  = c.recur_event_display ? `<span><span class="icon">🔁</span>${c.recur_event_display}</span>` : '';
+  const fee      = c.course_fee > 0 ? `<span><span class="icon">💰</span>$${c.course_fee}</span>` : '<span><span class="icon">💰</span>Free</span>';
+  const teachers = (c.teachers || []).join(', ');
+  const detailLink = c.link ? `<a class="btn-sm btn-info" href="https://${c.link}" target="_blank">Details</a>` : '';
+  const regLink    = c.register_url ? `<a class="btn-sm btn-reg" href="${c.register_url}" target="_blank">Register</a>` : '';
+
+  return `<div class="card${online ? ' online' : ''}">
+    <div class="card-top"><div class="card-title">${c.title}</div>${tag}</div>
+    <div class="card-meta">
+      <span><span class="icon">📅</span>${c.display_date}${timing ? ' · ' + timing : ''}</span>
+      <span><span class="icon">📍</span>${loc}</span>
+      ${teachers ? `<span><span class="icon">👤</span>${teachers}</span>` : ''}
+      ${fee}
+      ${recur}
+    </div>
+    <div class="card-footer">${regLink}${detailLink}</div>
+  </div>`;
+}
+
+// ── Render ─────────────────────────────────────────────────────────────────
+function render() {
+  const courses = filteredCourses();
+  if (!courses.length) {
+    courseArea.innerHTML = `<div class="empty"><span class="emoji">🔍</span><h3>No courses found</h3><p>Try adjusting your filters.</p></div>`;
+    return;
+  }
+
+  const sf = teacherSearch.value.trim().toLowerCase();
+  let groups = teacherGroups(courses);
+
+  // When a teacher is selected in sidebar, show only that teacher's section
+  if (activeTeacher) {
+    groups = groups.filter(([t]) => t === activeTeacher);
+  } else if (sf) {
+    // When searching, show only sections whose name matches the search
+    groups = groups.filter(([t]) => t.toLowerCase().includes(sf));
+  }
+
+  courseArea.innerHTML = groups.map(([teacher, cs]) => `
+    <div class="teacher-section" id="sec-${CSS.escape(teacher)}">
+      <div class="teacher-heading">
+        <h2>👤 ${teacher}</h2>
+        <span class="teacher-count">${cs.length} course${cs.length !== 1 ? 's' : ''}</span>
+      </div>
+      <div class="cards">${cs.map(cardHTML).join('')}</div>
+    </div>`).join('');
+}
+
+// ── Sidebar ────────────────────────────────────────────────────────────────
+function buildSidebar() {
+  const sf = teacherSearch.value.trim().toLowerCase();
+  const tf = typeSelect.value.trim().toLowerCase();
+
+  // Count per teacher after type filter (ignore teacher search for sidebar counts)
+  const typeFiltered = all.filter(c => !tf || (c.course_type_name || '').toLowerCase() === tf);
+  const groups = teacherGroups(typeFiltered).filter(([t]) => !sf || t.toLowerCase().includes(sf));
+
+  const totalVisible = groups.reduce((n, [, cs]) => n + cs.length, 0);
+
+  teacherList.innerHTML =
+    item('', 'All Teachers', typeFiltered.length) +
+    groups.map(([t, cs]) => item(t, t, cs.length)).join('');
+
+  teacherList.querySelectorAll('.teacher-item').forEach(el => {
+    el.addEventListener('click', () => {
+      activeTeacher = el.dataset.teacher;
+      teacherList.querySelectorAll('.teacher-item').forEach(x => x.classList.remove('active'));
+      el.classList.add('active');
+      render();
+      if (activeTeacher) {
+        const sec = document.getElementById('sec-' + CSS.escape(activeTeacher));
+        if (sec) sec.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+  });
+
+  // Restore active highlight
+  teacherList.querySelectorAll('.teacher-item').forEach(el => {
+    if (el.dataset.teacher === activeTeacher) el.classList.add('active');
+  });
+}
+
+function item(val, label, count) {
+  const isAll = val === '';
+  const active = (isAll ? activeTeacher === '' : activeTeacher === val) ? ' active' : '';
+  return `<div class="teacher-item${active}" data-teacher="${val}">
+    <span class="teacher-name-text">${label}</span><span class="badge">${count}</span>
+  </div>`;
+}
+
+// ── Events ─────────────────────────────────────────────────────────────────
+teacherSearch.addEventListener('input', () => {
+  activeTeacher = '';
+  buildSidebar();
+  render();
+});
+
+typeSelect.addEventListener('change', () => {
+  buildSidebar();
+  render();
+});
+
+clearBtn.addEventListener('click', () => {
+  teacherSearch.value = '';
+  typeSelect.value = '';
+  activeTeacher = '';
+  buildSidebar();
+  render();
+});
+
+loadCourses();
+</script>
+</body>
+</html>
