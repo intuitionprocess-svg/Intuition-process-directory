@@ -4,92 +4,82 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Intuition Process — Course Finder</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
   :root {
     --peach:  #e8784a;
-    --pink:   #f0a080;
-    --bg:     #fdf4ef;
-    --white:  #ffffff;
-    --border: #f0ddd8;
-    --text:   #3d2c28;
+    --border: #e8e0de;
+    --text:   #1e1410;
     --muted:  #9a7d76;
   }
 
-  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; position: relative; }
-
-  /* Subtle watercolor blobs in background */
-  body::before {
-    content: ''; position: fixed; z-index: 0; pointer-events: none;
-    width: 600px; height: 600px; border-radius: 50%;
-    background: radial-gradient(circle, #f8c4b4 0%, transparent 65%);
-    top: -200px; right: -150px; opacity: .45; filter: blur(40px);
+  body {
+    font-family: 'Inter', -apple-system, sans-serif; font-weight: 300;
+    color: var(--text); min-height: 100vh; position: relative;
+    background: url(//d9hhrg4mnvzow.cloudfront.net/event.us.artofliving.org/us-en/lp1/intuition-process-journey/3fcbd58d-secrets-of-meditation_1000000000000000000028.png) center top / cover fixed;
   }
-  body::after {
-    content: ''; position: fixed; z-index: 0; pointer-events: none;
-    width: 500px; height: 500px; border-radius: 50%;
-    background: radial-gradient(circle, #fbd4b8 0%, transparent 65%);
-    bottom: -150px; left: -100px; opacity: .4; filter: blur(40px);
+  body::before {
+    content: ''; position: fixed; inset: 0; z-index: 0; pointer-events: none;
+    background: rgba(255,255,255,.45);
   }
   header, .controls, .statusbar, #nearest-banner, .layout { position: relative; z-index: 1; }
 
   /* Header */
-  header { background: linear-gradient(135deg, #f0a080 0%, #e8784a 100%); color: #fff; padding: 18px 32px; box-shadow: 0 2px 12px rgba(232,120,74,.2); }
-  header h1 { font-size: 1.55rem; font-weight: 700; }
-  header p  { font-size: .88rem; opacity: .88; margin-top: 3px; }
-  .header-logo { height: 36px; width: auto; filter: brightness(0) invert(1); opacity: .95; }
-  .nav-link { font-size: .82rem; color: rgba(255,255,255,.88); text-decoration: none; background: rgba(255,255,255,.18); border-radius: 6px; padding: 5px 12px; transition: background .15s; white-space: nowrap; }
-  .nav-link:hover { background: rgba(255,255,255,.28); }
+  header { background: rgba(255,255,255,.75); backdrop-filter: blur(10px); border-bottom: 1px solid var(--border); padding: 18px 32px; }
+  header h1 { font-family: 'Cormorant Garamond', Georgia, serif; font-size: 1.5rem; font-weight: 700; color: var(--text); }
+  header p  { font-size: .82rem; color: var(--muted); margin-top: 2px; font-weight: 300; }
+  .nav-link { font-size: .8rem; color: var(--peach); text-decoration: none; border: 1px solid var(--peach); border-radius: 6px; padding: 5px 12px; transition: background .15s; white-space: nowrap; font-weight: 400; }
+  .nav-link:hover { background: rgba(232,120,74,.08); }
 
   /* Controls */
-  .controls { background: rgba(255,255,255,.85); backdrop-filter: blur(8px); border-bottom: 1px solid var(--border); padding: 16px 32px; display: flex; flex-wrap: wrap; gap: 12px; align-items: flex-end; }
+  .controls { background: rgba(255,255,255,.78); backdrop-filter: blur(8px); border-bottom: 1px solid var(--border); padding: 14px 32px; display: flex; flex-wrap: wrap; gap: 12px; align-items: flex-end; }
   .cg { display: flex; flex-direction: column; gap: 4px; }
-  .cg label { font-size: .72rem; font-weight: 700; text-transform: uppercase; letter-spacing: .5px; color: var(--muted); }
-  .cg input, .cg select { border: 1.5px solid var(--border); border-radius: 8px; padding: 8px 11px; font-size: .88rem; color: var(--text); background: rgba(255,255,255,.9); outline: none; min-width: 150px; transition: border-color .15s; }
+  .cg label { font-size: .68rem; font-weight: 500; text-transform: uppercase; letter-spacing: .6px; color: var(--muted); }
+  .cg input, .cg select { border: 1px solid var(--border); border-radius: 8px; padding: 8px 11px; font-size: .86rem; font-weight: 300; color: var(--text); background: rgba(255,255,255,.9); outline: none; min-width: 150px; transition: border-color .15s; font-family: 'Inter', sans-serif; }
   .cg input:focus, .cg select:focus { border-color: var(--peach); }
-  .btn { padding: 9px 16px; border: none; border-radius: 8px; font-size: .88rem; font-weight: 600; cursor: pointer; transition: opacity .15s; align-self: flex-end; }
+  .btn { padding: 8px 16px; border: none; border-radius: 8px; font-size: .86rem; font-weight: 400; cursor: pointer; transition: opacity .15s; align-self: flex-end; font-family: 'Inter', sans-serif; }
   .btn:hover { opacity: .85; }
-  .btn-primary   { background: linear-gradient(135deg, #f0a080, #e8784a); color: #fff; box-shadow: 0 3px 10px rgba(232,120,74,.3); }
-  .btn-secondary { background: #f5e8e2; color: var(--text); }
+  .btn-primary   { background: linear-gradient(135deg, #f0a080, #e8784a); color: #fff; }
+  .btn-secondary { background: rgba(245,232,226,.9); color: var(--text); border: 1px solid var(--border); }
 
   /* Status bar */
-  .statusbar { display: flex; align-items: center; gap: 8px; padding: 10px 32px; font-size: .83rem; color: var(--muted); background: rgba(255,255,255,.7); border-bottom: 1px solid var(--border); }
-  .spinner { width: 14px; height: 14px; border: 2px solid var(--border); border-top-color: var(--peach); border-radius: 50%; animation: spin .7s linear infinite; display: none; }
+  .statusbar { display: flex; align-items: center; gap: 8px; padding: 8px 32px; font-size: .8rem; color: var(--muted); background: rgba(255,255,255,.6); border-bottom: 1px solid var(--border); }
+  .spinner { width: 13px; height: 13px; border: 2px solid var(--border); border-top-color: var(--peach); border-radius: 50%; animation: spin .7s linear infinite; display: none; }
   @keyframes spin { to { transform: rotate(360deg); } }
 
   /* Nearest banner */
-  #nearest-banner { display: none; background: #fff3ee; border-bottom: 1px solid #fbd4c0; padding: 9px 32px; font-size: .85rem; color: #7a3820; }
+  #nearest-banner { display: none; background: rgba(255,243,238,.9); border-bottom: 1px solid #fbd4c0; padding: 8px 32px; font-size: .83rem; color: #7a3820; }
   #nearest-banner strong { color: var(--peach); }
 
   /* Layout */
   .layout { display: flex; min-height: calc(100vh - 160px); }
 
   /* Sidebar */
-  .sidebar { width: 195px; flex-shrink: 0; border-right: 1px solid var(--border); background: rgba(255,255,255,.75); padding: 10px 0; position: sticky; top: 0; max-height: calc(100vh - 120px); overflow-y: auto; }
-  .sidebar h3 { font-size: .7rem; font-weight: 700; text-transform: uppercase; letter-spacing: .6px; color: var(--muted); padding: 0 14px 7px; }
-  .state-item { display: flex; justify-content: space-between; align-items: center; padding: 6px 14px; cursor: pointer; font-size: .86rem; border-left: 3px solid transparent; transition: background .1s; }
-  .state-item:hover { background: #fdf0eb; }
-  .state-item.active { background: #fdf0eb; border-left-color: var(--peach); font-weight: 600; color: var(--peach); }
-  .badge { font-size: .7rem; background: #f5e8e2; color: var(--muted); border-radius: 10px; padding: 1px 7px; font-weight: 700; }
+  .sidebar { width: 195px; flex-shrink: 0; border-right: 1px solid var(--border); background: rgba(255,255,255,.65); backdrop-filter: blur(8px); padding: 12px 0; position: sticky; top: 0; max-height: calc(100vh - 120px); overflow-y: auto; }
+  .sidebar h3 { font-size: .65rem; font-weight: 500; text-transform: uppercase; letter-spacing: .7px; color: var(--muted); padding: 0 14px 8px; }
+  .state-item { display: flex; justify-content: space-between; align-items: center; padding: 6px 14px; cursor: pointer; font-size: .84rem; border-left: 3px solid transparent; transition: background .1s; font-weight: 300; }
+  .state-item:hover { background: rgba(253,240,235,.8); }
+  .state-item.active { background: rgba(253,240,235,.9); border-left-color: var(--peach); font-weight: 500; color: var(--peach); }
+  .badge { font-size: .68rem; background: rgba(245,232,226,.9); color: var(--muted); border-radius: 10px; padding: 1px 7px; font-weight: 400; }
   .state-item.active .badge { background: var(--peach); color: #fff; }
 
   /* Course area */
   .course-area { flex: 1; padding: 20px 26px; overflow-y: auto; }
   .state-section { margin-bottom: 30px; }
-  .state-heading { display: flex; align-items: center; gap: 10px; margin-bottom: 13px; padding-bottom: 8px; border-bottom: 2px solid var(--border); }
-  .state-heading h2 { font-size: 1rem; font-weight: 700; color: var(--text); }
-  .state-count { font-size: .78rem; color: var(--muted); background: #f5e8e2; border-radius: 10px; padding: 2px 9px; }
+  .state-heading { display: flex; align-items: center; gap: 10px; margin-bottom: 13px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
+  .state-heading h2 { font-family: 'Cormorant Garamond', Georgia, serif; font-size: 1.15rem; font-weight: 700; color: var(--text); }
+  .state-count { font-size: .75rem; color: var(--muted); background: rgba(245,232,226,.9); border-radius: 10px; padding: 2px 9px; }
 
   /* Cards */
   .cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(295px, 1fr)); gap: 13px; }
-  .card { background: rgba(255,255,255,.85); border: 1px solid var(--border); border-radius: 12px; padding: 15px; display: flex; flex-direction: column; gap: 9px; transition: box-shadow .15s, transform .15s; backdrop-filter: blur(4px); }
+  .card { background: rgba(255,255,255,.82); border: 1px solid var(--border); border-radius: 12px; padding: 16px; display: flex; flex-direction: column; gap: 9px; transition: box-shadow .15s, transform .15s; backdrop-filter: blur(6px); }
   .card:hover { box-shadow: 0 6px 20px rgba(200,100,60,.1); transform: translateY(-1px); }
-  .card.online { background: rgba(255,248,244,.9); border-color: #f8d4c4; }
 
   .card-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; }
-  .card-title { font-size: .9rem; font-weight: 700; line-height: 1.35; flex: 1; color: var(--text); }
-  .tag { font-size: .66rem; font-weight: 700; text-transform: uppercase; letter-spacing: .4px; border-radius: 5px; padding: 2px 7px; white-space: nowrap; flex-shrink: 0; }
+  .card-title { font-family: 'Cormorant Garamond', Georgia, serif; font-size: 1rem; font-weight: 500; line-height: 1.35; flex: 1; color: var(--text); }
+  .tag { font-size: .63rem; font-weight: 500; text-transform: uppercase; letter-spacing: .4px; border-radius: 5px; padding: 2px 7px; white-space: nowrap; flex-shrink: 0; }
   .tag-online   { background: #dbeafe; color: #1d4ed8; }
   .tag-inperson { background: #dcfce7; color: #166534; }
   .tag-juniors  { background: #fce4f0; color: #9d174d; }
@@ -97,22 +87,22 @@
   .tag-teens    { background: #dcfce7; color: #166534; }
   .tag-level2   { background: #fef3c7; color: #92400e; }
 
-  .card-meta { display: flex; flex-direction: column; gap: 4px; font-size: .8rem; color: var(--muted); }
+  .card-meta { display: flex; flex-direction: column; gap: 4px; font-size: .79rem; color: var(--muted); font-weight: 300; }
   .card-meta span { display: flex; align-items: flex-start; gap: 5px; }
-  .icon { font-size: .85rem; flex-shrink: 0; }
+  .icon { font-size: .82rem; flex-shrink: 0; }
 
-  .dist-badge { font-size: .75rem; font-weight: 700; color: var(--peach); background: #fff3ee; border-radius: 5px; padding: 2px 8px; display: inline-block; align-self: flex-start; }
+  .dist-badge { font-size: .73rem; font-weight: 500; color: var(--peach); background: rgba(255,243,238,.9); border-radius: 5px; padding: 2px 8px; display: inline-block; align-self: flex-start; }
 
   .card-footer { margin-top: auto; display: flex; gap: 7px; flex-wrap: wrap; }
-  .btn-sm { font-size: .78rem; padding: 5px 11px; border-radius: 6px; text-decoration: none; font-weight: 600; transition: opacity .15s; }
+  .btn-sm { font-size: .77rem; padding: 5px 12px; border-radius: 6px; text-decoration: none; font-weight: 400; transition: opacity .15s; font-family: 'Inter', sans-serif; }
   .btn-sm:hover { opacity: .8; }
   .btn-reg  { background: linear-gradient(135deg, #f0a080, #e8784a); color: #fff; }
-  .btn-info { background: #f5e8e2; color: var(--text); }
+  .btn-info { background: rgba(245,232,226,.9); color: var(--text); }
 
   /* Empty */
   .empty { text-align: center; padding: 60px 20px; color: var(--muted); }
   .empty .emoji { font-size: 2.8rem; display: block; margin-bottom: 10px; }
-  .empty h3 { font-size: 1.05rem; color: var(--text); margin-bottom: 6px; }
+  .empty h3 { font-family: 'Cormorant Garamond', Georgia, serif; font-size: 1.1rem; font-weight: 500; color: var(--text); margin-bottom: 6px; }
 
   /* Responsive */
   @media (max-width: 680px) {
@@ -120,7 +110,7 @@
     .layout { flex-direction: column; }
     .sidebar { width: 100%; max-height: 180px; position: static; border-right: none; border-bottom: 1px solid var(--border); }
     .course-area { padding: 14px; }
-    header { padding: 16px 14px; }
+    header { padding: 14px; }
   }
 </style>
 </head>
@@ -129,7 +119,6 @@
 <header>
   <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">
     <div>
-      <img src="https://instituteofai.ai/wp-content/uploads/2025/11/iai_logo_black_text-scaled.webp" alt="Institute of Absolute Intelligence" class="header-logo" />
       <h1>Intuition Process Course Finder</h1>
       <p>Find upcoming courses near you</p>
     </div>
