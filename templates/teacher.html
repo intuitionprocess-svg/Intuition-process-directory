@@ -102,24 +102,18 @@
 
   /* ── PHOTO FOOTER ── */
   .photo-footer { position: relative; z-index: 1; padding: 0; }
-  .photo-grid { display: grid; grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(2, 260px); gap: 4px; }
-  .photo-grid img { width: 100%; height: 100%; object-fit: cover; object-position: center top; display: block; }
+  .photo-footer img { width: 100%; display: block; }
 
   /* ── RESPONSIVE ── */
   @media (max-width: 900px) {
     .ww-grid, .tracks, .testi-grid { grid-template-columns: 1fr 1fr; }
     .hero h1 { font-size: 3rem; }
-    .photo-grid { grid-template-rows: repeat(2, 200px); }
   }
   @media (max-width: 600px) {
     .ww-grid, .tracks, .testi-grid { grid-template-columns: 1fr; }
     .hero h1 { font-size: 2.4rem; }
     section { padding: 52px 16px; }
     .section-title { font-size: 2rem; margin-bottom: 32px; }
-    .photo-grid { grid-template-columns: repeat(2, 1fr); grid-template-rows: repeat(3, 180px); gap: 3px; }
-  }
-  @media (max-width: 380px) {
-    .photo-grid { grid-template-columns: 1fr; grid-template-rows: repeat(6, 220px); }
   }
 </style>
 </head>
@@ -386,14 +380,7 @@
 
 <!-- ── PHOTO FOOTER ── -->
 <footer class="photo-footer">
-  <div class="photo-grid">
-    <img src="/static/images/gallery-1.jpg" alt="Children practicing intuition exercises">
-    <img src="/static/images/gallery-2.jpg" alt="Child writing during Intuition Process course" style="object-position: center center;">
-    <img src="/static/images/gallery-3.jpg" alt="Child expressing joy during course activity">
-    <img src="/static/images/gallery-4.jpg" alt="Child focusing during intuition exercise" style="object-position: center bottom;">
-    <img src="/static/images/gallery-5.png" alt="Child standing confidently">
-    <img src="/static/images/gallery-6.jpg" alt="Teens engaging in group activity" style="object-position: center center;">
-  </div>
+  <img src="/static/images/gallery.jpg" alt="Intuition Process course photos">
 </footer>
 
 </body>
