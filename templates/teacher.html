@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>{{ teacher }} — Intuition Process Courses</title>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -18,122 +18,383 @@
     background: rgba(255,255,255,.45);
   }
 
-  /* ── PAGE HEADER ── */
-  .page-header {
+  /* ── HERO ── */
+  .hero {
     position: relative; z-index: 1;
-    padding: 36px 32px 28px;
-    border-bottom: 1px solid rgba(232,120,74,.15);
+    text-align: center; padding: 80px 24px 60px;
   }
-  .page-header p { font-family: 'Cormorant Garamond', Georgia, serif; font-size: 1.5rem; font-weight: 400; color: #1e1410; letter-spacing: .3px; }
+  .hero-content { max-width: 620px; margin: 0 auto; }
+  .hero h1 { font-family: 'Cormorant Garamond', Georgia, serif; font-size: 3.8rem; font-weight: 700; color: #1e1410; line-height: 1.12; letter-spacing: .5px; margin-bottom: 20px; }
+  .hero-sub { font-size: 1rem; font-weight: 400; color: #5a4040; line-height: 1.7; margin-bottom: 6px; }
+  .hero-bullets { list-style: none; display: inline-block; text-align: left; margin: 10px auto 36px; }
+  .hero-bullets li { padding: 5px 0 5px 22px; position: relative; font-size: .95rem; color: #5a4040; font-weight: 400; }
+  .hero-bullets li::before { content: '–'; position: absolute; left: 0; top: 5px; color: #e8784a; }
+  .hero-ctas { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+  .btn-cta-primary { display: inline-block; padding: 13px 32px; background: linear-gradient(180deg, #ffd16f 0%, #ff865b 100%); color: #fff; border-radius: 30px; font-size: .9rem; font-weight: 500; letter-spacing: .3px; text-decoration: none; box-shadow: 0 6px 20px rgba(255,134,91,.3); transition: opacity .15s, transform .1s; }
+  .btn-cta-primary:hover { opacity: .88; transform: translateY(-1px); }
+  .btn-cta-secondary { display: inline-block; padding: 12px 32px; background: rgba(255,255,255,.75); color: #c05c2e; border: 1.5px solid #e8784a; border-radius: 30px; font-size: .9rem; font-weight: 500; letter-spacing: .3px; text-decoration: none; transition: background .15s, transform .1s; }
+  .btn-cta-secondary:hover { background: rgba(232,120,74,.08); transform: translateY(-1px); }
 
-  /* ── MAIN ── */
-  main { position: relative; z-index: 1; max-width: 1100px; margin: 0 auto; padding: 32px 24px 60px; }
+  /* ── SHARED SECTION ── */
+  section { padding: 72px 24px; position: relative; z-index: 1; }
+  .inner { max-width: 1080px; margin: 0 auto; }
+  .section-title { font-family: 'Cormorant Garamond', Georgia, serif; font-size: 2.4rem; font-weight: 700; text-align: center; margin-bottom: 48px; color: #1a1a1a; letter-spacing: .3px; }
+  .section-divider { border: none; border-top: 1px solid rgba(232,120,74,.2); margin: 0; }
 
-  .count { font-size: .88rem; color: #9a7d76; margin-bottom: 22px; }
-
-  /* ── CARDS ── */
+  /* ── UPCOMING COURSES ── */
+  .courses-section { background: transparent; }
+  .teacher-label { text-align: center; font-size: .82rem; font-weight: 500; letter-spacing: .6px; text-transform: uppercase; color: #9a7d76; margin-bottom: 8px; }
+  .course-count { text-align: center; font-size: .86rem; color: #9a7d76; margin-bottom: 32px; }
   .cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 16px; }
-
-  .card {
-    background: rgba(255,255,255,.85); border: 1px solid rgba(240,221,216,.8);
-    border-radius: 14px; padding: 20px; display: flex; flex-direction: column; gap: 10px;
-    transition: box-shadow .15s, transform .15s; backdrop-filter: blur(6px);
-  }
+  .card { background: rgba(255,255,255,.82); border: 1px solid #e8e0de; border-radius: 14px; padding: 20px; display: flex; flex-direction: column; gap: 10px; transition: box-shadow .15s, transform .15s; backdrop-filter: blur(6px); }
   .card:hover { box-shadow: 0 6px 24px rgba(200,100,60,.1); transform: translateY(-2px); }
-
   .card-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; }
   .card-title { font-family: 'Cormorant Garamond', Georgia, serif; font-size: 1.05rem; font-weight: 500; line-height: 1.35; flex: 1; color: #1e1410; }
-
-  .tag { font-size: .66rem; font-weight: 700; text-transform: uppercase; letter-spacing: .4px; border-radius: 5px; padding: 3px 8px; white-space: nowrap; flex-shrink: 0; }
+  .tag { font-size: .63rem; font-weight: 500; text-transform: uppercase; letter-spacing: .4px; border-radius: 5px; padding: 3px 8px; white-space: nowrap; flex-shrink: 0; }
   .tag-online   { background: #dbeafe; color: #1d4ed8; }
   .tag-inperson { background: #dcfce7; color: #166534; }
   .tag-juniors  { background: #fce4f0; color: #9d174d; }
   .tag-kids     { background: #ede9fe; color: #5b21b6; }
   .tag-teens    { background: #dcfce7; color: #166534; }
   .tag-level2   { background: #fef3c7; color: #92400e; }
-
-  .card-meta { display: flex; flex-direction: column; gap: 5px; font-size: .82rem; color: #9a7d76; }
+  .card-meta { display: flex; flex-direction: column; gap: 5px; font-size: .82rem; color: #9a7d76; font-weight: 300; }
   .card-meta span { display: flex; align-items: flex-start; gap: 6px; }
   .icon { font-size: .85rem; flex-shrink: 0; }
-
   .card-footer { margin-top: auto; display: flex; gap: 8px; flex-wrap: wrap; }
-  .btn-sm { font-size: .8rem; padding: 6px 13px; border-radius: 7px; text-decoration: none; font-weight: 600; transition: opacity .15s; }
+  .btn-sm { font-size: .8rem; padding: 6px 13px; border-radius: 7px; text-decoration: none; font-weight: 400; transition: opacity .15s; font-family: 'Inter', sans-serif; }
   .btn-sm:hover { opacity: .8; }
   .btn-reg  { background: linear-gradient(135deg, #f0a080, #e8784a); color: #fff; }
   .btn-info { background: rgba(245,232,226,.9); color: #3d2c28; }
 
-  /* ── EMPTY ── */
-  .empty { text-align: center; padding: 80px 20px; color: #9a7d76; }
-  .empty .emoji { font-size: 3rem; display: block; margin-bottom: 12px; }
-  .empty h2 { font-size: 1.1rem; color: #3d2c28; margin-bottom: 8px; }
+  /* ── WIN-WIN ── */
+  .ww-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .ww-card { border: 1px solid rgba(228,228,228,.7); border-radius: 12px; padding: 28px 22px; display: flex; flex-direction: column; gap: 10px; background: rgba(255,255,255,.78); backdrop-filter: blur(6px); }
+  .ww-icon { width: 44px; height: 44px; margin-top: auto; padding-top: 12px; }
+  .ww-card h3 { font-family: 'Cormorant Garamond', Georgia, serif; font-size: 1.15rem; font-weight: 500; color: #1a1a1a; }
+  .ww-card p { font-size: .86rem; color: #555; line-height: 1.7; }
 
+  /* ── PROGRAM OUTLINE ── */
+  .tracks { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; align-items: start; }
+  .track { border: 1px solid rgba(228,228,228,.7); border-radius: 14px; padding: 28px 22px; background: rgba(255,255,255,.78); backdrop-filter: blur(6px); }
+  .track-name { font-family: 'Cormorant Garamond', Georgia, serif; font-size: 1.3rem; font-weight: 500; margin-bottom: 4px; }
+  .track-ages { font-size: .8rem; font-weight: 500; letter-spacing: .4px; color: #e8784a; margin-bottom: 14px; text-transform: uppercase; }
+  .track-stats { font-size: .84rem; color: #666; line-height: 1.9; border-bottom: 1px solid #e8e0de; padding-bottom: 16px; margin-bottom: 18px; }
+  details { border: 1px solid #e8e0de; border-radius: 8px; margin-bottom: 10px; background: rgba(255,255,255,.85); overflow: hidden; }
+  summary { font-size: .86rem; font-weight: 500; padding: 12px 14px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; list-style: none; color: #1a1a1a; user-select: none; }
+  summary::-webkit-details-marker { display: none; }
+  .sum-icon { font-size: 1rem; color: #aaa; font-weight: 300; transition: transform .2s; }
+  details[open] .sum-icon { transform: rotate(45deg); }
+  .mod-body { padding: 16px 14px 18px; border-top: 1px solid #e8e0de; font-size: .86rem; color: #444; line-height: 1.85; font-weight: 300; }
+  .mod-title { font-style: italic; font-family: 'Cormorant Garamond', Georgia, serif; font-size: .98rem; margin-bottom: 2px; }
+  .mod-type  { margin-bottom: 14px; color: #666; }
+
+  /* ── TESTIMONIALS ── */
+  .testimonials { background: transparent; }
+  .testi-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
+  .testi-card { background: rgba(255,255,255,.78); backdrop-filter: blur(6px); border: 1px solid rgba(228,228,228,.7); border-radius: 14px; padding: 28px 24px; display: flex; flex-direction: column; gap: 16px; }
+  .testi-quote { font-family: 'Cormorant Garamond', Georgia, serif; font-size: 1.1rem; font-weight: 400; line-height: 1.65; color: #1e1410; font-style: italic; }
+  .testi-author { font-size: .82rem; font-weight: 500; color: #e8784a; letter-spacing: .3px; }
+
+  /* ── EMPTY ── */
+  .empty { text-align: center; padding: 60px 20px; color: #9a7d76; }
+  .empty .emoji { font-size: 3rem; display: block; margin-bottom: 12px; }
+  .empty h2 { font-family: 'Cormorant Garamond', Georgia, serif; font-size: 1.2rem; font-weight: 500; color: #1e1410; margin-bottom: 8px; }
+
+  /* ── PHOTO FOOTER ── */
+  .photo-footer { position: relative; z-index: 1; padding: 0; }
+  .photo-grid { display: grid; grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(2, 260px); gap: 4px; }
+  .photo-grid img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    .ww-grid, .tracks, .testi-grid { grid-template-columns: 1fr 1fr; }
+    .hero h1 { font-size: 3rem; }
+    .photo-grid { grid-template-rows: repeat(2, 200px); }
+  }
   @media (max-width: 600px) {
-    .page-header { padding: 24px 16px 20px; }
-    main { padding: 20px 14px 48px; }
-    .page-header h1 { font-size: 1.6rem; }
+    .ww-grid, .tracks, .testi-grid { grid-template-columns: 1fr; }
+    .hero h1 { font-size: 2.4rem; }
+    section { padding: 52px 16px; }
+    .section-title { font-size: 2rem; margin-bottom: 32px; }
+    .photo-grid { grid-template-columns: repeat(2, 1fr); grid-template-rows: repeat(3, 180px); gap: 3px; }
+  }
+  @media (max-width: 380px) {
+    .photo-grid { grid-template-columns: 1fr; grid-template-rows: repeat(6, 220px); }
   }
 </style>
 </head>
 <body>
 
-<div class="page-header">
-  <p>Upcoming Intuition Process Courses</p>
-</div>
+<!-- ── HERO ── -->
+<section class="hero">
+  <div class="hero-content">
+    <h1>Give your child<br>a powerful edge</h1>
+    <p class="hero-sub">Your child's sixth sense is real. Activate it with the Intuition Process.</p>
+    <ul class="hero-bullets">
+      <li>Better decision-making</li>
+      <li>Heightened confidence &amp; self-esteem</li>
+      <li>Improved academic &amp; athletic performance</li>
+    </ul>
+    <div class="hero-ctas">
+      <a href="https://members.us.artofliving.org/widget/center-events/a05Vu00000D89GMIAZ?ctype=TE_0012" class="btn-cta-primary" target="_blank">Attend an Intro Session</a>
+      <a href="#courses" class="btn-cta-secondary">View Upcoming Courses</a>
+    </div>
+  </div>
+</section>
 
-<main>
-  {% if error %}
-    <div class="empty">
-      <span class="emoji">⚠️</span>
-      <h2>Could not load courses</h2>
-      <p>{{ error }}</p>
-    </div>
-  {% elif courses %}
-    <p class="count">{{ courses | length }} upcoming course{{ 's' if courses | length != 1 else '' }}</p>
-    <div class="cards">
-      {% for c in courses %}
-        {% set online = c.is_online_event == 1 or 'online' in (c.address or '') | lower %}
-        {% set type_name = c.course_type_name or '' %}
-        {% if 'Juniors' in type_name %}
-          {% set tag_cls = 'tag-juniors' %}{% set tag_label = 'Juniors 5–7' %}
-        {% elif 'Kids' in type_name %}
-          {% set tag_cls = 'tag-kids' %}{% set tag_label = 'Kids 8–12' %}
-        {% elif 'Teens' in type_name %}
-          {% set tag_cls = 'tag-teens' %}{% set tag_label = 'Teens 13–17' %}
-        {% elif 'Level 2' in type_name %}
-          {% set tag_cls = 'tag-level2' %}{% set tag_label = 'Level 2' %}
-        {% else %}
-          {% set tag_cls = 'tag-inperson' %}{% set tag_label = type_name %}
-        {% endif %}
-        {% set loc = ([c.city, c.state] | select | join(', ')) or c.address or '—' %}
-        {% set all_teachers = (c.teachers or []) | join(', ') %}
-        <div class="card{% if online %} online{% endif %}">
-          <div class="card-top">
-            <div class="card-title">{{ c.title }}</div>
-            <span class="tag {{ tag_cls }}">{{ tag_label }}</span>
+<hr class="section-divider">
+
+<!-- ── UPCOMING COURSES ── -->
+<section class="courses-section" id="courses">
+  <div class="inner">
+    <p class="teacher-label">Taught by</p>
+    <h2 class="section-title" style="margin-bottom:8px;">{{ teacher }}</h2>
+    {% if error %}
+      <div class="empty">
+        <span class="emoji">⚠️</span>
+        <h2>Could not load courses</h2>
+        <p>{{ error }}</p>
+      </div>
+    {% elif courses %}
+      <p class="course-count">{{ courses | length }} upcoming course{{ 's' if courses | length != 1 else '' }}</p>
+      <div class="cards">
+        {% for c in courses %}
+          {% set online = c.is_online_event == 1 or 'online' in (c.address or '') | lower %}
+          {% set type_name = c.course_type_name or '' %}
+          {% if 'Juniors' in type_name %}
+            {% set tag_cls = 'tag-juniors' %}{% set tag_label = 'Juniors 5–7' %}
+          {% elif 'Kids' in type_name %}
+            {% set tag_cls = 'tag-kids' %}{% set tag_label = 'Kids 8–12' %}
+          {% elif 'Teens' in type_name %}
+            {% set tag_cls = 'tag-teens' %}{% set tag_label = 'Teens 13–17' %}
+          {% elif 'Level 2' in type_name %}
+            {% set tag_cls = 'tag-level2' %}{% set tag_label = 'Level 2' %}
+          {% else %}
+            {% set tag_cls = 'tag-inperson' %}{% set tag_label = type_name %}
+          {% endif %}
+          {% set loc = ([c.city, c.state] | select | join(', ')) or c.address or '—' %}
+          {% set all_teachers = (c.teachers or []) | join(', ') %}
+          <div class="card{% if online %} online{% endif %}">
+            <div class="card-top">
+              <div class="card-title">{{ c.title }}</div>
+              <span class="tag {{ tag_cls }}">{{ tag_label }}</span>
+            </div>
+            <div class="card-meta">
+              <span><span class="icon">📅</span>{{ c.display_date }}{% if c.weekday_timings %} · {{ c.weekday_timings }}{% elif c.weekend_timings %} · {{ c.weekend_timings }}{% endif %}</span>
+              <span><span class="icon">📍</span>{{ loc }}</span>
+              {% if all_teachers %}<span><span class="icon">👤</span>{{ all_teachers }}</span>{% endif %}
+              <span><span class="icon">💰</span>{% if c.course_fee and c.course_fee > 0 %}${{ c.course_fee }}{% else %}Free{% endif %}</span>
+            </div>
+            <div class="card-footer">
+              {% if c.register_url %}<a class="btn-sm btn-reg" href="{{ c.register_url }}" target="_blank">Register</a>{% endif %}
+              {% if c.link %}<a class="btn-sm btn-info" href="https://{{ c.link }}" target="_blank">Details</a>{% endif %}
+            </div>
           </div>
-          <div class="card-meta">
-            <span><span class="icon">📅</span>{{ c.display_date }}{% if c.weekday_timings %} · {{ c.weekday_timings }}{% elif c.weekend_timings %} · {{ c.weekend_timings }}{% endif %}</span>
-            <span><span class="icon">📍</span>{{ loc }}</span>
-            {% if all_teachers %}
-            <span><span class="icon">👤</span>{{ all_teachers }}</span>
-            {% endif %}
-            <span><span class="icon">💰</span>{% if c.course_fee and c.course_fee > 0 %}${{ c.course_fee }}{% else %}Free{% endif %}</span>
-          </div>
-          <div class="card-footer">
-            {% if c.register_url %}<a class="btn-sm btn-reg" href="{{ c.register_url }}" target="_blank">Register</a>{% endif %}
-            {% if c.link %}<a class="btn-sm btn-info" href="https://{{ c.link }}" target="_blank">Details</a>{% endif %}
-          </div>
-        </div>
-      {% endfor %}
+        {% endfor %}
+      </div>
+    {% else %}
+      <div class="empty">
+        <span class="emoji">📭</span>
+        <h2>No upcoming courses for {{ teacher }}</h2>
+        <p>Check back soon — new courses are added regularly.</p>
+      </div>
+    {% endif %}
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- ── WIN-WIN ── -->
+<section>
+  <div class="inner">
+    <h2 class="section-title">Win-Win for Parents &amp; Children</h2>
+    <div class="ww-grid">
+      <div class="ww-card">
+        <h3>Activate the Sixth Sense</h3>
+        <p>Powerful processes to awaken your child's intuitive mind — helping them focus, decide, and respond with confidence.</p>
+        <svg class="ww-icon" viewBox="0 0 48 48" fill="none" stroke="#1a1a1a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="24" cy="14" r="6"/><path d="M12 40c0-6.627 5.373-12 12-12s12 5.373 12 12"/>
+          <path d="M24 2v4M24 42v4M2 24h4M42 24h4M7.76 7.76l2.83 2.83M37.41 37.41l2.83 2.83M37.41 10.59l-2.83 2.83M10.59 37.41l-2.83 2.83"/>
+        </svg>
+      </div>
+      <div class="ww-card">
+        <h3>Strengthen Relationships</h3>
+        <p>Trains your child to sense what others feel, respond with maturity, and become more thoughtful and understanding.</p>
+        <svg class="ww-icon" viewBox="0 0 48 48" fill="none" stroke="#1a1a1a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M24 38s-14-8.5-14-19a10 10 0 0 1 14-9.17A10 10 0 0 1 38 19c0 10.5-14 19-14 19z"/><path d="M10 44h28"/>
+        </svg>
+      </div>
+      <div class="ww-card">
+        <h3>Improve Learning Skills</h3>
+        <p>Supports your child's ability to absorb, retain, and apply what they learn, all with greater ease and confidence.</p>
+        <svg class="ww-icon" viewBox="0 0 48 48" fill="none" stroke="#1a1a1a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="24" cy="18" r="8"/><path d="M24 10V6M24 26v-2M16 18H12M36 18h-4M14 36c0-5.523 4.477-10 10-10s10 4.477 10 10"/>
+        </svg>
+      </div>
+      <div class="ww-card">
+        <h3>Manage The Mind</h3>
+        <p>Powerful breathing techniques to help your child better manage their mind and emotions, and stay focused.</p>
+        <svg class="ww-icon" viewBox="0 0 48 48" fill="none" stroke="#1a1a1a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M16 28s2 4 8 4 8-4 8-4M12 20c2-8 6-12 12-12s10 4 12 12c2 6 0 12-4 14M14 34c-3-1-5-4-6-8M24 38v6M18 44h12"/>
+        </svg>
+      </div>
+      <div class="ww-card">
+        <h3>Make Learning Fun</h3>
+        <p>The course makes learning playful and meaningful through games, challenges, and hands-on discovery.</p>
+        <svg class="ww-icon" viewBox="0 0 48 48" fill="none" stroke="#1a1a1a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="24" cy="12" r="5"/><path d="M24 17v10l-8 8M24 27l8 8M18 30H8M30 30h10"/>
+        </svg>
+      </div>
+      <div class="ww-card">
+        <h3>Cut Through the Noise</h3>
+        <p>Guided techniques to clear mental noise and help your child think, feel, and act with greater clarity.</p>
+        <svg class="ww-icon" viewBox="0 0 48 48" fill="none" stroke="#1a1a1a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="24" cy="24" r="18"/>
+          <circle cx="18" cy="20" r="2" fill="#1a1a1a" stroke="none"/>
+          <circle cx="30" cy="20" r="2" fill="#1a1a1a" stroke="none"/>
+          <path d="M17 30c1.5 3 12.5 3 14 0M20 14l-2-4M28 14l2-4M16 17l-3-3M32 17l3-3"/>
+        </svg>
+      </div>
     </div>
-  {% else %}
-    <div class="empty">
-      <span class="emoji">📭</span>
-      <h2>No upcoming courses for {{ teacher }}</h2>
-      <p>Check back soon — new courses are added regularly.</p>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- ── PROGRAM OUTLINE ── -->
+<section>
+  <div class="inner">
+    <h2 class="section-title">Program Outline</h2>
+    <div class="tracks">
+
+      <div class="track">
+        <div class="track-name">IP Juniors</div>
+        <div class="track-ages">Ages 5–7</div>
+        <div class="track-stats">10 days<br>4 in-person instruction<br>6 online practice</div>
+        <details>
+          <summary>Module 1 <span class="sum-icon">+</span></summary>
+          <div class="mod-body">
+            <div class="mod-title">Discovering Intuition</div>
+            <div class="mod-type">In-person instruction</div>
+            1st Weekend<br>Fri–Sun: 3 sessions<br>2 hours / session
+            <div style="margin-top:12px;">Parent Session<br>Sun, 1 hour</div>
+            <div style="margin-top:12px;">Online practice<br>Mon–Sat<br>15 mins / session</div>
+          </div>
+        </details>
+        <details>
+          <summary>Module 2 <span class="sum-icon">+</span></summary>
+          <div class="mod-body">
+            <div class="mod-title">Building the Practice</div>
+            <div class="mod-type">In-person instruction</div>
+            2nd Weekend<br>1 session<br>2 hours
+          </div>
+        </details>
+      </div>
+
+      <div class="track">
+        <div class="track-name">IP Kids</div>
+        <div class="track-ages">Ages 8–12</div>
+        <div class="track-stats">17 days<br>7 in-person instruction<br>10 online practice</div>
+        <details>
+          <summary>Module 1 <span class="sum-icon">+</span></summary>
+          <div class="mod-body">
+            <div class="mod-title">Preparation</div>
+            <div class="mod-type">In-person instruction</div>
+            1st Weekend, Fri–Sun<br>3 sessions<br>2 hours / session
+            <div style="margin-top:12px;">Online practice<br>Mon–Thu<br>15 mins / session</div>
+          </div>
+        </details>
+        <details>
+          <summary>Module 2 <span class="sum-icon">+</span></summary>
+          <div class="mod-body">
+            <div class="mod-title">Discovering Intuition</div>
+            <div class="mod-type">In-person instruction</div>
+            2nd Weekend, Fri–Sun<br>3 sessions<br>Fri &amp; Sat: 2h / session<br>Sun: 4 hours
+            <div style="margin-top:12px;">Parent Session<br>Sun, 1 hour</div>
+            <div style="margin-top:12px;">Online practice<br>Mon–Sat<br>30 mins / session</div>
+          </div>
+        </details>
+        <details>
+          <summary>Module 3 <span class="sum-icon">+</span></summary>
+          <div class="mod-body">
+            <div class="mod-title">Building the Practice</div>
+            <div class="mod-type">In-person instruction</div>
+            3rd Weekend<br>1 session<br>2 hours
+          </div>
+        </details>
+      </div>
+
+      <div class="track">
+        <div class="track-name">IP Teens</div>
+        <div class="track-ages">Ages 13–17</div>
+        <div class="track-stats">17 days<br>7 in-person instruction<br>10 online practice</div>
+        <details>
+          <summary>Module 1 <span class="sum-icon">+</span></summary>
+          <div class="mod-body">
+            <div class="mod-title">Preparation</div>
+            <div class="mod-type">In-person instruction</div>
+            1st Weekend<br>Fri–Sun: 3 sessions<br>2 hours / session
+            <div style="margin-top:12px;">Online practice<br>Mon–Thu<br>30 mins / session</div>
+          </div>
+        </details>
+        <details>
+          <summary>Module 2 <span class="sum-icon">+</span></summary>
+          <div class="mod-body">
+            <div class="mod-title">Discovering Intuition</div>
+            <div class="mod-type">In-person instruction</div>
+            2nd Weekend, Fri–Sun<br>3 sessions<br>Fri &amp; Sat: 2h / session<br>Sun: 4 hours
+            <div style="margin-top:12px;">Parent Session<br>Sun, 1 hour</div>
+            <div style="margin-top:12px;">Online practice<br>Mon–Sat<br>30 mins / session</div>
+          </div>
+        </details>
+        <details>
+          <summary>Module 3 <span class="sum-icon">+</span></summary>
+          <div class="mod-body">
+            <div class="mod-title">Building the Practice</div>
+            <div class="mod-type">In-person instruction</div>
+            3rd Weekend<br>1 session<br>2 hours
+          </div>
+        </details>
+      </div>
+
     </div>
-  {% endif %}
-</main>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- ── TESTIMONIALS ── -->
+<section class="testimonials">
+  <div class="inner">
+    <h2 class="section-title">What People Are Sharing</h2>
+    <div class="testi-grid">
+      <div class="testi-card">
+        <p class="testi-quote">"It opens a new level to every child's mind, and we'll find a lot of great minds in the future if more kids get this."</p>
+        <p class="testi-author">— Bhavani, 14 years old</p>
+      </div>
+      <div class="testi-card">
+        <p class="testi-quote">"She's not just talking to 4–5 people. She's gained the confidence to talk to thousands. She's holding the mic, addressing crowds!"</p>
+        <p class="testi-author">— Kiran, Parent</p>
+      </div>
+      <div class="testi-card">
+        <p class="testi-quote">"My daughter is more focused on her studies, and she willingly spends less time on electronics. She's making better choices for herself."</p>
+        <p class="testi-author">— Hong, Parent</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── PHOTO FOOTER ── -->
+<footer class="photo-footer">
+  <div class="photo-grid">
+    <img src="/static/images/ip-photo-1.jpg" alt="Children practicing intuition exercises">
+    <img src="/static/images/ip-photo-2.jpg" alt="Child writing during Intuition Process course">
+    <img src="/static/images/ip-photo-3.jpg" alt="Child expressing joy during course activity">
+    <img src="/static/images/ip-photo-4.jpg" alt="Child focusing during intuition exercise">
+    <img src="/static/images/ip-photo-5.jpg" alt="Child standing confidently">
+    <img src="/static/images/ip-photo-6.jpg" alt="Teens engaging in group activity">
+  </div>
+</footer>
 
 </body>
 </html>
