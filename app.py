@@ -1,10 +1,15 @@
 from flask import Flask, jsonify, request, render_template, abort
 import requests
+import json
 import re
 import os
 from datetime import date, timedelta
 
 app = Flask(__name__)
+
+_TEACHERS_PATH = os.path.join(os.path.dirname(__file__), "static", "teachers.json")
+with open(_TEACHERS_PATH) as _f:
+    TEACHERS = json.load(_f)
 
 # ── Zip prefix → state abbreviation ───────────────────────────────────────
 _ZIP_PREFIX_STATE = {
@@ -317,6 +322,32 @@ def geocode_zip(zip_code):
     except Exception as e:
         return jsonify({"error": str(e)}), 502
     return jsonify({"error": "Zip code not found"}), 404
+
+
+@app.route("/find-teachers")
+def find_teachers():
+    location = request.args.get("location", "").strip()
+    results = []
+    if location:
+        q = location.lower().strip()
+        is_zip = bool(re.match(r"^\d{5}$", q))
+        is_state_code = len(q) == 2 and q.upper() in _STATE_ABBREV
+        for t in TEACHERS:
+            t_city = t.get("city", "").lower()
+            t_state = t.get("state", "").lower()
+            t_zip = t.get("zip", "")
+            if is_zip:
+                user_state = _ZIP_PREFIX_STATE.get(q[:3], "")
+                match = t_zip == q or t.get("state", "").upper() == user_state
+            elif is_state_code:
+                match = t.get("state", "").upper() == q.upper()
+            else:
+                match = (q in t_city or q in t_state or
+                         q in f"{t_city} {t_state}")
+            if match:
+                results.append(t)
+    results.sort(key=lambda t: (t.get("state", ""), t.get("city", "")))
+    return render_template("find_teachers.html", results=results, location=location)
 
 
 @app.route("/<slug>")

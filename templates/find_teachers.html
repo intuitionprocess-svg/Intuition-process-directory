@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Connect with a Local Advisor — Intuition Process</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Inter', -apple-system, sans-serif; font-weight: 300; color: #1a1a1a;
+    background: url(//d9hhrg4mnvzow.cloudfront.net/event.us.artofliving.org/us-en/lp1/intuition-process-journey/3fcbd58d-secrets-of-meditation_1000000000000000000028.png) center top / cover fixed;
+    min-height: 100vh;
+  }
+  body::before {
+    content: ''; position: fixed; inset: 0; z-index: 0; pointer-events: none;
+    background: rgba(255,255,255,.45);
+  }
+  .page { position: relative; z-index: 1; padding: 60px 24px 80px; }
+  .inner { max-width: 900px; margin: 0 auto; }
+
+  .back-link { display: inline-flex; align-items: center; gap: 6px; font-size: .88rem; color: #e8784a; text-decoration: none; margin-bottom: 32px; font-weight: 400; }
+  .back-link:hover { text-decoration: underline; }
+
+  h1 { font-family: 'Cormorant Garamond', Georgia, serif; font-size: 2.4rem; font-weight: 700; color: #1e1410; margin-bottom: 8px; }
+  .subtitle { font-size: .95rem; color: #666; margin-bottom: 32px; }
+
+  /* search-again form */
+  .search-again {
+    background: rgba(255,255,255,.82); backdrop-filter: blur(6px);
+    border: 1px solid rgba(228,228,228,.7); border-radius: 14px;
+    padding: 1.4rem 1.6rem; margin-bottom: 36px;
+    display: flex; gap: 10px; flex-wrap: wrap; align-items: flex-end;
+  }
+  .search-again label { font-size: .85rem; font-weight: 500; display: block; margin-bottom: 5px; }
+  .search-group { flex: 1; min-width: 200px; }
+  .sa-input { width: 100%; padding: .7rem 1rem; font-size: .92rem; border: 1.5px solid #e0d8d4; border-radius: 50px; font-family: 'Inter', sans-serif; outline: none; }
+  .sa-input:focus { border-color: #e8784a; }
+  .sa-btn { padding: .72rem 1.8rem; background: linear-gradient(180deg,#ffd16f,#ff865b); color: #fff; border: none; border-radius: 30px; font-size: .9rem; font-weight: 500; cursor: pointer; white-space: nowrap; }
+  .sa-btn:hover { opacity: .88; }
+
+  /* results */
+  .results-count { font-size: .9rem; color: #666; margin-bottom: 20px; }
+  .results-count strong { color: #1a1a1a; }
+
+  .teacher-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .teacher-card {
+    background: rgba(255,255,255,.82); backdrop-filter: blur(6px);
+    border: 1px solid rgba(228,228,228,.7); border-radius: 12px;
+    padding: 20px 18px; display: flex; flex-direction: column; gap: 8px;
+  }
+  .teacher-name { font-family: 'Cormorant Garamond', Georgia, serif; font-size: 1.15rem; font-weight: 600; color: #1e1410; }
+  .teacher-location { font-size: .84rem; color: #777; }
+  .teacher-contact { display: flex; flex-direction: column; gap: 5px; margin-top: 4px; }
+  .teacher-contact a { font-size: .84rem; color: #e8784a; text-decoration: none; display: flex; align-items: center; gap: 6px; }
+  .teacher-contact a:hover { text-decoration: underline; }
+  .contact-icon { font-size: .9rem; }
+
+  /* no results */
+  .no-results {
+    background: rgba(255,255,255,.82); backdrop-filter: blur(6px);
+    border: 1px solid rgba(228,228,228,.7); border-radius: 14px;
+    padding: 2.5rem; text-align: center;
+  }
+  .no-results p { color: #666; line-height: 1.7; margin-bottom: 8px; }
+  .no-results strong { color: #1a1a1a; }
+
+  @media (max-width: 700px) { .teacher-grid { grid-template-columns: 1fr 1fr; } h1 { font-size: 1.9rem; } }
+  @media (max-width: 480px) { .teacher-grid { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="inner">
+
+    <a href="/" class="back-link">&#8592; Back to home</a>
+
+    <h1>Connect with a Local Advisor</h1>
+    {% if location %}
+    <p class="subtitle">Results for <strong>"{{ location }}"</strong></p>
+    {% else %}
+    <p class="subtitle">Search for a certified Intuition Process teacher near you.</p>
+    {% endif %}
+
+    <form class="search-again" action="/find-teachers" method="get">
+      <div class="search-group">
+        <label for="location">Location</label>
+        <input type="text" id="location" name="location" class="sa-input"
+               placeholder="City, state, or zip" value="{{ location }}" required>
+      </div>
+      <button type="submit" class="sa-btn">Search</button>
+    </form>
+
+    {% if location %}
+      {% if results %}
+        <p class="results-count"><strong>{{ results|length }} teacher{{ 's' if results|length != 1 }}</strong> found near "{{ location }}"</p>
+        <div class="teacher-grid">
+          {% for t in results %}
+          <div class="teacher-card">
+            <div class="teacher-name">{{ t.first_name }} {{ t.last_name }}</div>
+            {% if t.city or t.state %}
+            <div class="teacher-location">{{ t.city }}{% if t.city and t.state %}, {% endif %}{{ t.state }}</div>
+            {% endif %}
+            <div class="teacher-contact">
+              {% if t.phone %}
+              <a href="tel:{{ t.phone|replace(' ','')|replace('.','-') }}">
+                <span class="contact-icon">&#128222;</span> {{ t.phone }}
+              </a>
+              {% endif %}
+              {% if t.email %}
+              <a href="mailto:{{ t.email }}">
+                <span class="contact-icon">&#9993;</span> {{ t.email }}
+              </a>
+              {% endif %}
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      {% else %}
+        <div class="no-results">
+          <p>No teachers found near <strong>"{{ location }}"</strong>.</p>
+          <p>Try searching by state name (e.g. "California") or two-letter code (e.g. "CA").</p>
+        </div>
+      {% endif %}
+    {% endif %}
+
+  </div>
+</div>
+</body>
+</html>

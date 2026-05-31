@@ -39,33 +39,30 @@
   .inner { max-width: 1080px; margin: 0 auto; }
   .section-title { font-family: 'Cormorant Garamond', Georgia, serif; font-size: 2.4rem; font-weight: 700; text-align: center; margin-bottom: 48px; color: #1a1a1a; letter-spacing: .3px; }
 
-  /* ── WIN-WIN ── */
-  .winwin { background: transparent; }
-  .ww-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
-  .ww-card { border: 1px solid rgba(228,228,228,.7); border-radius: 12px; padding: 28px 22px; display: flex; flex-direction: column; gap: 10px; background: rgba(255,255,255,.78); backdrop-filter: blur(6px); }
-  .ww-icon { width: 44px; height: 44px; margin-top: auto; padding-top: 12px; }
-  .ww-card h3 { font-family: 'Cormorant Garamond', Georgia, serif; font-size: 1.15rem; font-weight: 500; color: #1a1a1a; }
-  .ww-card p { font-size: .86rem; color: #555; line-height: 1.7; }
-
-  /* ── PROGRAM OUTLINE ── */
-  .outline { background: transparent; }
-  .tracks { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; align-items: start; }
-  .track { border: 1px solid rgba(228,228,228,.7); border-radius: 14px; padding: 28px 22px; background: rgba(255,255,255,.78); backdrop-filter: blur(6px); }
-  .track-name { font-family: 'Cormorant Garamond', Georgia, serif; font-size: 1.3rem; font-weight: 500; margin-bottom: 4px; }
-  .track-ages { font-size: .8rem; font-weight: 500; letter-spacing: .4px; color: #e8784a; margin-bottom: 14px; text-transform: uppercase; }
-  .track-stats { font-size: .84rem; color: #666; line-height: 1.9; border-bottom: 1px solid #e8e0de; padding-bottom: 16px; margin-bottom: 18px; }
-  details { border: 1px solid #e8e0de; border-radius: 8px; margin-bottom: 10px; background: rgba(255,255,255,.85); overflow: hidden; }
-  summary { font-size: .86rem; font-weight: 500; padding: 12px 14px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; list-style: none; color: #1a1a1a; user-select: none; letter-spacing: .2px; }
-  summary::-webkit-details-marker { display: none; }
-  .sum-icon { font-size: 1rem; color: #aaa; font-weight: 300; transition: transform .2s; }
-  details[open] .sum-icon { transform: rotate(45deg); }
-  .mod-body { padding: 16px 14px 18px; border-top: 1px solid #e8e0de; font-size: .86rem; color: #444; line-height: 1.85; font-weight: 300; }
-  .mod-title { font-style: italic; font-family: 'Cormorant Garamond', Georgia, serif; font-size: .98rem; margin-bottom: 2px; }
-  .mod-type  { margin-bottom: 14px; color: #666; }
+  /* ── ADVISOR FINDER ── */
+  .advisor-finder { text-align: center; }
+  .advisor-sub { color: #5a4040; margin: -.8rem 0 2rem; font-size: 1rem; font-weight: 400; }
+  .finder-card {
+    max-width: 560px; margin: 0 auto; text-align: left;
+    background: rgba(255,255,255,.82); backdrop-filter: blur(6px);
+    border-radius: 16px; padding: 2rem 2.2rem; box-shadow: 0 4px 24px rgba(0,0,0,.08);
+    border: 1px solid rgba(228,228,228,.7);
+  }
+  .finder-label { display: block; font-weight: 500; margin-bottom: .5rem; font-size: .9rem; color: #1a1a1a; }
+  .finder-input-wrap { position: relative; margin-bottom: .4rem; }
+  .finder-pin { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); font-size: 1rem; color: #aaa; }
+  .finder-input { width: 100%; padding: .85rem 1rem .85rem 2.5rem; font-size: .95rem; border: 1.5px solid #e0d8d4; border-radius: 50px; box-sizing: border-box; background: #fff; color: #1a1a1a; font-family: 'Inter', sans-serif; outline: none; transition: border-color .15s; }
+  .finder-input:focus { border-color: #e8784a; }
+  .finder-hint { font-size: .82rem; color: #999; margin-bottom: 1.4rem; padding-left: 4px; }
+  .finder-label-radius { display: block; font-weight: 500; margin-bottom: .5rem; font-size: .9rem; color: #1a1a1a; margin-top: .2rem; }
+  .finder-select { width: 100%; padding: .85rem 1rem; font-size: .95rem; border: 1.5px solid #e0d8d4; border-radius: 50px; box-sizing: border-box; background: #fff; color: #1a1a1a; font-family: 'Inter', sans-serif; outline: none; appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23aaa' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 16px center; margin-bottom: 1.4rem; transition: border-color .15s; }
+  .finder-select:focus { border-color: #e8784a; }
+  .finder-btn { width: 100%; padding: 14px; font-size: .95rem; font-weight: 500; border: none; cursor: pointer; border-radius: 30px; background: linear-gradient(180deg, #ffd16f 0%, #ff865b 100%); color: #fff; box-shadow: 0 6px 20px rgba(255,134,91,.3); transition: opacity .15s, transform .1s; letter-spacing: .3px; }
+  .finder-btn:hover { opacity: .88; transform: translateY(-1px); }
 
   /* ── RESPONSIVE ── */
-  @media (max-width: 900px) { .ww-grid, .tracks { grid-template-columns: 1fr 1fr; } .hero h1 { font-size: 3rem; } }
-  @media (max-width: 600px) { .ww-grid, .tracks { grid-template-columns: 1fr; } .hero h1 { font-size: 2.6rem; } section { padding: 56px 16px; } .section-title { font-size: 2rem; margin-bottom: 32px; } }
+  @media (max-width: 900px) { .hero h1 { font-size: 3rem; } }
+  @media (max-width: 600px) { .hero h1 { font-size: 2.6rem; } section { padding: 56px 16px; } .section-title { font-size: 2rem; margin-bottom: 32px; } .finder-card { padding: 1.5rem; } }
 </style>
 </head>
 <body>
@@ -88,165 +85,30 @@
   </div>
 </section>
 
-<!-- ── WIN-WIN ── -->
-<section class="winwin">
+<!-- ── ADVISOR FINDER ── -->
+<section class="advisor-finder">
   <div class="inner">
-    <h2 class="section-title">Win-Win for Parents &amp; Children</h2>
-    <div class="ww-grid">
-      <div class="ww-card">
-        <h3>Activate the Sixth Sense</h3>
-        <p>Powerful processes to awaken your child's intuitive mind — helping them focus, decide, and respond with confidence.</p>
-        <svg class="ww-icon" viewBox="0 0 48 48" fill="none" stroke="#1a1a1a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="24" cy="14" r="6"/><path d="M12 40c0-6.627 5.373-12 12-12s12 5.373 12 12"/>
-          <path d="M24 2v4M24 42v4M2 24h4M42 24h4M7.76 7.76l2.83 2.83M37.41 37.41l2.83 2.83M37.41 10.59l-2.83 2.83M10.59 37.41l-2.83 2.83"/>
-        </svg>
+    <h2 class="section-title">Connect with a Local Advisor</h2>
+    <p class="advisor-sub">Find a certified Intuition Process teacher in your area.</p>
+    <form class="finder-card" action="/find-teachers" method="get">
+      <label class="finder-label" for="location">Location</label>
+      <div class="finder-input-wrap">
+        <span class="finder-pin">&#128205;</span>
+        <input type="text" id="location" name="location" class="finder-input"
+               placeholder="City, state, or zip — e.g. Chicago or TX or 80132" required>
       </div>
-      <div class="ww-card">
-        <h3>Strengthen Relationships</h3>
-        <p>Trains your child to sense what others feel, respond with maturity, and become more thoughtful and understanding.</p>
-        <svg class="ww-icon" viewBox="0 0 48 48" fill="none" stroke="#1a1a1a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M24 38s-14-8.5-14-19a10 10 0 0 1 14-9.17A10 10 0 0 1 38 19c0 10.5-14 19-14 19z"/>
-          <path d="M10 44h28"/>
-        </svg>
-      </div>
-      <div class="ww-card">
-        <h3>Improve Learning Skills</h3>
-        <p>Supports your child's ability to absorb, retain, and apply what they learn, all with greater ease and confidence.</p>
-        <svg class="ww-icon" viewBox="0 0 48 48" fill="none" stroke="#1a1a1a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="24" cy="18" r="8"/><path d="M24 10V6M24 26v-2M16 18H12M36 18h-4M14 36c0-5.523 4.477-10 10-10s10 4.477 10 10"/>
-        </svg>
-      </div>
-      <div class="ww-card">
-        <h3>Manage The Mind</h3>
-        <p>Powerful breathing techniques to help your child better manage their mind and emotions, and stay focused.</p>
-        <svg class="ww-icon" viewBox="0 0 48 48" fill="none" stroke="#1a1a1a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M16 28s2 4 8 4 8-4 8-4M12 20c2-8 6-12 12-12s10 4 12 12c2 6 0 12-4 14M14 34c-3-1-5-4-6-8M24 38v6M18 44h12"/>
-        </svg>
-      </div>
-      <div class="ww-card">
-        <h3>Make Learning Fun</h3>
-        <p>The course makes learning playful and meaningful through games, challenges, and hands-on discovery.</p>
-        <svg class="ww-icon" viewBox="0 0 48 48" fill="none" stroke="#1a1a1a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="24" cy="12" r="5"/><path d="M24 17v10l-8 8M24 27l8 8M18 30H8M30 30h10"/>
-        </svg>
-      </div>
-      <div class="ww-card">
-        <h3>Cut Through the Noise</h3>
-        <p>Guided techniques to clear mental noise and help your child think, feel, and act with greater clarity.</p>
-        <svg class="ww-icon" viewBox="0 0 48 48" fill="none" stroke="#1a1a1a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="24" cy="24" r="18"/>
-          <circle cx="18" cy="20" r="2" fill="#1a1a1a" stroke="none"/>
-          <circle cx="30" cy="20" r="2" fill="#1a1a1a" stroke="none"/>
-          <path d="M17 30c1.5 3 12.5 3 14 0M20 14l-2-4M28 14l2-4M16 17l-3-3M32 17l3-3"/>
-        </svg>
-      </div>
-    </div>
+      <p class="finder-hint">Try: "Columbus", "Ohio", "Columbus OH", or a zip code</p>
+      <label class="finder-label-radius" for="radius">Search Radius</label>
+      <select id="radius" name="radius" class="finder-select">
+        <option>Within 25 miles</option>
+        <option>Within 50 miles</option>
+        <option>Within 100 miles</option>
+        <option>Statewide</option>
+      </select>
+      <button type="submit" class="finder-btn">Search for Teachers</button>
+    </form>
   </div>
 </section>
-
-<!-- ── PROGRAM OUTLINE ── -->
-<section class="outline">
-  <div class="inner">
-    <h2 class="section-title">Program Outline</h2>
-    <div class="tracks">
-
-      <!-- IP JUNIORS -->
-      <div class="track">
-        <div class="track-name">IP Juniors</div>
-        <div class="track-ages">Ages 5–7</div>
-        <div class="track-stats">10 days<br>4 in-person instruction<br>6 online practice</div>
-        <details>
-          <summary>Module 1 <span class="sum-icon">+</span></summary>
-          <div class="mod-body">
-            <div class="mod-title">Discovering Intuition</div>
-            <div class="mod-type">In-person instruction</div>
-            1st Weekend<br>Fri–Sun: 3 sessions<br>2 hours / session
-            <div style="margin-top:12px;">Parent Session<br>Sun, 1 hour</div>
-            <div style="margin-top:12px;">Online practice<br>Mon–Sat<br>15 mins / session</div>
-          </div>
-        </details>
-        <details>
-          <summary>Module 2 <span class="sum-icon">+</span></summary>
-          <div class="mod-body">
-            <div class="mod-title">Building the Practice</div>
-            <div class="mod-type">In-person instruction</div>
-            2nd Weekend<br>1 session<br>2 hours
-          </div>
-        </details>
-      </div>
-
-      <!-- IP KIDS -->
-      <div class="track">
-        <div class="track-name">IP Kids</div>
-        <div class="track-ages">Ages 8–12</div>
-        <div class="track-stats">17 days<br>7 in-person instruction<br>10 online practice</div>
-        <details>
-          <summary>Module 1 <span class="sum-icon">+</span></summary>
-          <div class="mod-body">
-            <div class="mod-title">Preparation</div>
-            <div class="mod-type">In-person instruction</div>
-            1st Weekend, Fri–Sun<br>3 sessions<br>2 hours / session
-            <div style="margin-top:12px;">Online practice<br>Mon–Thu<br>15 mins / session</div>
-          </div>
-        </details>
-        <details>
-          <summary>Module 2 <span class="sum-icon">+</span></summary>
-          <div class="mod-body">
-            <div class="mod-title">Discovering Intuition</div>
-            <div class="mod-type">In-person instruction</div>
-            2nd Weekend, Fri–Sun<br>3 sessions<br>Fri &amp; Sat: 2h / session<br>Sun: 4 hours
-            <div style="margin-top:12px;">Parent Session<br>Sun, 1 hour</div>
-            <div style="margin-top:12px;">Online practice<br>Mon–Sat<br>30 mins / session</div>
-          </div>
-        </details>
-        <details>
-          <summary>Module 3 <span class="sum-icon">+</span></summary>
-          <div class="mod-body">
-            <div class="mod-title">Building the Practice</div>
-            <div class="mod-type">In-person instruction</div>
-            3rd Weekend<br>1 session<br>2 hours
-          </div>
-        </details>
-      </div>
-
-      <!-- IP TEENS -->
-      <div class="track">
-        <div class="track-name">IP Teens</div>
-        <div class="track-ages">Ages 13–17</div>
-        <div class="track-stats">17 days<br>7 in-person instruction<br>10 online practice</div>
-        <details>
-          <summary>Module 1 <span class="sum-icon">+</span></summary>
-          <div class="mod-body">
-            <div class="mod-title">Preparation</div>
-            <div class="mod-type">In-person instruction</div>
-            1st Weekend<br>Fri–Sun: 3 sessions<br>2 hours / session
-            <div style="margin-top:12px;">Online practice<br>Mon–Thu<br>30 mins / session</div>
-          </div>
-        </details>
-        <details>
-          <summary>Module 2 <span class="sum-icon">+</span></summary>
-          <div class="mod-body">
-            <div class="mod-title">Discovering Intuition</div>
-            <div class="mod-type">In-person instruction</div>
-            2nd Weekend, Fri–Sun<br>3 sessions<br>Fri &amp; Sat: 2h / session<br>Sun: 4 hours
-            <div style="margin-top:12px;">Parent Session<br>Sun, 1 hour</div>
-            <div style="margin-top:12px;">Online practice<br>Mon–Sat<br>30 mins / session</div>
-          </div>
-        </details>
-        <details>
-          <summary>Module 3 <span class="sum-icon">+</span></summary>
-          <div class="mod-body">
-            <div class="mod-title">Building the Practice</div>
-            <div class="mod-type">In-person instruction</div>
-            3rd Weekend<br>1 session<br>2 hours
-          </div>
-        </details>
-      </div>
-
-    </div>
-  </div>
-</section>
-
 
 </body>
 </html>
