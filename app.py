@@ -329,23 +329,29 @@ def find_teachers():
     location = request.args.get("location", "").strip()
     results = []
     if location:
-        q = location.lower().strip()
-        is_zip = bool(re.match(r"^\d{5}$", q))
-        is_state_code = len(q) == 2 and q.upper() in _STATE_ABBREV
-        for t in TEACHERS:
-            t_city = t.get("city", "").lower()
-            t_state = t.get("state", "").lower()
-            t_zip = t.get("zip", "")
-            if is_zip:
-                user_state = _ZIP_PREFIX_STATE.get(q[:3], "")
-                match = t_zip == q or t.get("state", "").upper() == user_state
-            elif is_state_code:
-                match = t.get("state", "").upper() == q.upper()
+        q = location.strip()
+        q_lower = q.lower()
+
+        if ',' in q:
+            # "City, State" or "City, StateName" — use the state part
+            state_part = q.split(',', 1)[1].strip()
+            sq = state_part.upper()
+            if len(sq) == 2 and sq in _STATE_ABBREV:
+                results = [t for t in TEACHERS if t.get("state", "").upper() == sq]
             else:
-                match = (q in t_city or q in t_state or
-                         q in f"{t_city} {t_state}")
-            if match:
-                results.append(t)
+                sl = state_part.lower()
+                results = [t for t in TEACHERS if sl in t.get("state", "").lower()]
+        elif len(q) == 2 and q.upper() in _STATE_ABBREV:
+            # Two-letter state code
+            results = [t for t in TEACHERS if t.get("state", "").upper() == q.upper()]
+        else:
+            # Try city match first; fall back to state name match
+            city_matches = [t for t in TEACHERS if q_lower in t.get("city", "").lower()]
+            if city_matches:
+                results = city_matches
+            else:
+                results = [t for t in TEACHERS if q_lower in t.get("state", "").lower()]
+
     results.sort(key=lambda t: (t.get("state", ""), t.get("city", "")))
     return render_template("find_teachers.html", results=results, location=location)
 
