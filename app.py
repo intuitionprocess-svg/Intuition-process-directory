@@ -391,6 +391,10 @@ def find_teachers():
                         fallback_state = name  # tells template why we widened the search
 
     results.sort(key=lambda t: (t.get("state", ""), t.get("city", "")))
+    for t in results:
+        slug = re.sub(r"[^a-z0-9]+", "-",
+                      f"{t['first_name']} {t['last_name']}".lower()).strip("-")
+        t["slug"] = slug
     return render_template("find_teachers.html", results=results, location=location,
                            fallback_state=fallback_state)
 

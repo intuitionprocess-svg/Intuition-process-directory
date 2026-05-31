@@ -55,6 +55,8 @@
   .teacher-contact a { font-size: .84rem; color: #e8784a; text-decoration: none; display: flex; align-items: center; gap: 6px; }
   .teacher-contact a:hover { text-decoration: underline; }
   .contact-icon { font-size: .9rem; }
+  .view-courses-link { display: inline-block; margin-top: 8px; font-size: .83rem; font-weight: 500; color: #e8784a; text-decoration: none; letter-spacing: .2px; }
+  .view-courses-link:hover { text-decoration: underline; }
 
   /* no results */
   .no-results {
@@ -117,6 +119,7 @@
               </a>
               {% endif %}
             </div>
+            <a href="/{{ t.slug }}" class="view-courses-link">View upcoming courses &#8594;</a>
           </div>
           {% endfor %}
         </div>
