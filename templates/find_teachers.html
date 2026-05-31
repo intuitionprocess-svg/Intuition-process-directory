@@ -93,7 +93,11 @@
 
     {% if location %}
       {% if results %}
+        {% if fallback_state %}
+        <p class="results-count">No teachers in <strong>{{ location }}</strong> — showing all teachers in <strong>{{ fallback_state }}</strong>.</p>
+        {% else %}
         <p class="results-count"><strong>{{ results|length }} teacher{{ 's' if results|length != 1 }}</strong> found near "{{ location }}"</p>
+        {% endif %}
         <div class="teacher-grid">
           {% for t in results %}
           <div class="teacher-card">

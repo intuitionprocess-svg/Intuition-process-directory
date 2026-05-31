@@ -324,10 +324,39 @@ def geocode_zip(zip_code):
     return jsonify({"error": "Zip code not found"}), 404
 
 
+def _geocode_city_to_state(city_query):
+    """Return (state_abbr, state_name) for a city string using Nominatim, or (None, None)."""
+    try:
+        resp = requests.get(
+            "https://nominatim.openstreetmap.org/search",
+            params={"q": city_query + ", USA", "format": "json", "limit": 1, "countrycodes": "us"},
+            headers={"User-Agent": "intuition-process-teacher-finder/1.0"},
+            timeout=5,
+        )
+        if resp.status_code != 200:
+            return None, None
+        data = resp.json()
+        if not data:
+            return None, None
+        display_name = data[0].get("display_name", "")
+        # display_name: "Bakersfield, Kern County, California, United States"
+        parts = [p.strip() for p in display_name.split(",")]
+        for part in parts:
+            # Check full state name
+            for abbr, name in _STATE_ABBREV.items():
+                if part.lower() == name.lower():
+                    return abbr, name
+    except Exception:
+        pass
+    return None, None
+
+
 @app.route("/find-teachers")
 def find_teachers():
     location = request.args.get("location", "").strip()
     results = []
+    fallback_state = None  # set when we widen search to full state
+
     if location:
         q = location.strip()
         q_lower = q.lower()
@@ -345,15 +374,25 @@ def find_teachers():
             # Two-letter state code
             results = [t for t in TEACHERS if t.get("state", "").upper() == q.upper()]
         else:
-            # Try city match first; fall back to state name match
+            # Try exact city match first
             city_matches = [t for t in TEACHERS if q_lower in t.get("city", "").lower()]
             if city_matches:
                 results = city_matches
             else:
-                results = [t for t in TEACHERS if q_lower in t.get("state", "").lower()]
+                # Try state name match
+                state_matches = [t for t in TEACHERS if q_lower in t.get("state", "").lower()]
+                if state_matches:
+                    results = state_matches
+                else:
+                    # Geocode the city to find its state, then show all teachers in that state
+                    abbr, name = _geocode_city_to_state(q)
+                    if abbr:
+                        results = [t for t in TEACHERS if t.get("state", "").upper() == abbr]
+                        fallback_state = name  # tells template why we widened the search
 
     results.sort(key=lambda t: (t.get("state", ""), t.get("city", "")))
-    return render_template("find_teachers.html", results=results, location=location)
+    return render_template("find_teachers.html", results=results, location=location,
+                           fallback_state=fallback_state)
 
 
 @app.route("/<slug>")
